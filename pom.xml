@@ -13,7 +13,7 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<project.build.sourceEncoding>${default.encode}</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>${default.encode}</project.reporting.outputEncoding>
-		
+
 		<common.lang.version>3.9</common.lang.version>
 		<common.collection.version>4.4</common.collection.version>
 		<slf4j.version>1.7.30</slf4j.version>
@@ -32,7 +32,6 @@
 	</properties>
 	<modules>
 		<module>java-utilities</module>
-		<module>multi-tenant-datasource</module>
 		<module>spring-rule-flow-manager</module>
 	</modules>
 	<build>
