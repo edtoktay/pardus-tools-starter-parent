@@ -17,7 +17,7 @@
 	</licenses>
 	<scm>
 		<url>https://github.com/edtoktay/pardus-tools-starter-parent</url>
-		<connection>scm:git:git://github.com/edtoktay/pardus-tools-starter-parent.git</connection>
+		<connection>scm:git:https://github.com/edtoktay/pardus-tools-starter-parent.git</connection>
 		<developerConnection>scm:git:git@github.com/edtoktay/pardus-tools-starter-parent.git</developerConnection>
 	  <tag>pardus-tools-starter-parent-0.0.1</tag>
   </scm>
