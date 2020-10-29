@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tech.pardus</groupId>
 	<artifactId>pardus-tools-starter-parent</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<issueManagement>
 		<url>https://github.com/edtoktay/pardus-tools-starter-parent/issues</url>
@@ -17,8 +17,8 @@
 	</licenses>
 	<scm>
 		<url>https://github.com/edtoktay/pardus-tools-starter-parent</url>
-		<connection>scm:git:https://github.com/edtoktay/pardus-tools-starter-parent</connection>
-		<developerConnection>scm:git:https://github.com/edtoktay/pardus-tools-starter-parent</developerConnection>
+		<connection>scm:git:https://github.com/edtoktay/pardus-tools-starter-parent.git</connection>
+		<developerConnection>scm:git:edtoktay@github.com/edtoktay/pardus-tools-starter-parent.git</developerConnection>
 	  <tag>pardus-tools-starter-parent-0.0.1</tag>
   </scm>
 	<developers>
