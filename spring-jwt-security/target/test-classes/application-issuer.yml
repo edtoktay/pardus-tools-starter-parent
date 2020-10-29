@@ -1,0 +1,11 @@
+security:
+  jwt:
+    token:
+      issuer: true
+      expiration-time: 30
+      expiry-time-unit: SECONDS
+      issuing-authority: pardus.tech
+      sign-key: hedeleme
+      header: Authorization
+      header-prefix: Bearer
+      login-url: /authentication/login
