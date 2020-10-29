@@ -1,10 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tech.pardus</groupId>
 	<artifactId>pardus-tools-starter-parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>pom</packaging>
 	<issueManagement>
 		<url>https://github.com/edtoktay/pardus-tools-starter-parent/issues</url>
@@ -21,7 +19,8 @@
 		<url>https://github.com/edtoktay/pardus-tools-starter-parent</url>
 		<connection>scm:git:git://github.com/edtoktay/pardus-tools-starter-parent.git</connection>
 		<developerConnection>scm:git:git@github.com/edtoktay/pardus-tools-starter-parent.git</developerConnection>
-	</scm>
+	  <tag>pardus-tools-starter-parent-0.0.1</tag>
+  </scm>
 	<developers>
 		<developer>
 			<email>deniz.toktay@pardus.tech</email>
