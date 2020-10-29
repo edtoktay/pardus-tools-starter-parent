@@ -19,7 +19,6 @@
 		<url>https://github.com/edtoktay/pardus-tools-starter-parent</url>
 		<connection>scm:git:https://github.com/edtoktay/pardus-tools-starter-parent</connection>
 		<developerConnection>scm:git:https://github.com/edtoktay/pardus-tools-starter-parent</developerConnection>
-	  <tag>pardus-tools-starter-parent-0.0.1</tag>
   </scm>
 	<developers>
 		<developer>
