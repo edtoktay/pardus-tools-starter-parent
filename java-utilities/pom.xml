@@ -35,4 +35,8 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+  <scm>
+    <tag>pardus-tools-starter-parent-0.0.1</tag>
+  </scm>
 </project>
