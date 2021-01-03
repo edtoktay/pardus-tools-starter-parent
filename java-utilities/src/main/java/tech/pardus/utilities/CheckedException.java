@@ -14,6 +14,9 @@ public class CheckedException extends RuntimeException {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @param cause
+	 */
 	public CheckedException(Throwable cause) {
 		super(cause);
 	}

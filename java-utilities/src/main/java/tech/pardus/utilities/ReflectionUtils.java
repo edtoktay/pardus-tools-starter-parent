@@ -3,10 +3,14 @@
  */
 package tech.pardus.utilities;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -15,8 +19,11 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.reflections.Reflections;
+import org.reflections.util.ConfigurationBuilder;
+import org.reflections.util.FilterBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +38,10 @@ public class ReflectionUtils {
 	private ReflectionUtils() {
 	}
 
+	/**
+	 * @return main class of the app if there is any
+	 * @throws ClassNotFoundException
+	 */
 	public static Class<?> getMainClass() throws ClassNotFoundException {
 		if (Objects.isNull(mainClass)) {
 			var threadMap = Thread.getAllStackTraces();
@@ -41,20 +52,46 @@ public class ReflectionUtils {
 		return mainClass;
 	}
 
+	/**
+	 * @param clazz (Type of target Class) (Type of target Class)
+	 * @return initiated class object
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 * @throws NoSuchMethodException
+	 */
 	public static Object initClass(Class<?> clazz)
 	        throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		return clazz.getConstructor().newInstance();
 	}
 
+	/**
+	 * @param <T>
+	 * @param clazz (Type of target Class)
+	 * @return Set of classes which extends given Class
+	 */
 	public static <T> Set<Class<? extends T>> listOfExtendedClasses(Class<T> clazz) {
 		var reflections = new Reflections(findPackageNames());
 		return reflections.getSubTypesOf(clazz);
 	}
 
+	/**
+	 * @param method
+	 * @return true if method is static
+	 */
 	public static boolean isMethodStatic(Method method) {
 		return Modifier.isStatic(method.getModifiers());
 	}
 
+	/**
+	 * @param object
+	 * @param methodName
+	 * @param args
+	 * @return method return after execution
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 * @throws NoSuchMethodException
+	 */
 	public static Object runMethod(Object object, String methodName, Object... args)
 	        throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		Object result = null;
@@ -67,10 +104,19 @@ public class ReflectionUtils {
 		return result;
 	}
 
+	/**
+	 * @param clazz      (Type of target Class)
+	 * @param methodName
+	 * @return Get method of the given method name
+	 * @throws NoSuchMethodException
+	 */
 	public static Method getMethod(Class<?> clazz, String methodName) throws NoSuchMethodException {
 		return clazz.getMethod(methodName);
 	}
 
+	/**
+	 * @return Set of Package Names
+	 */
 	public static Set<String> findPackageNames() {
 		// @formatter:off
 		Predicate<? super String> notReservedPredicate = t -> isNotReserved(t);
@@ -82,6 +128,10 @@ public class ReflectionUtils {
 		// @formatter:on
 	}
 
+	/**
+	 * @param prefix
+	 * @return set of package names starting with given prefix
+	 */
 	public static Set<String> findPackageNamesStartingWith(String prefix) {
 		// @formatter:off
 		return Stream
@@ -90,6 +140,32 @@ public class ReflectionUtils {
 					.filter(n -> n.startsWith(prefix))
 		        .collect(Collectors.toSet());
 		// @formatter:on
+	}
+
+	public static Set<Class<?>> getAllClassesAnnotatedWith(Class<? extends Annotation> annotation) {
+		var reflections = new Reflections(reflectionConfigurationBuilder());
+		return reflections.getTypesAnnotatedWith(annotation);
+	}
+
+	public static Set<Method> getAllMethodsAnnotatedWith(Class<? extends Annotation> annotation) {
+		var reflections = new Reflections(findPackageNames());
+		return reflections.getMethodsAnnotatedWith(annotation);
+	}
+
+	public static Set<Field> getAllFieldsAnnotatedWith(Class<? extends Annotation> annotation) {
+		var reflections = new Reflections(findPackageNames());
+		return reflections.getFieldsAnnotatedWith(annotation);
+	}
+
+	private static ConfigurationBuilder reflectionConfigurationBuilder() {
+		var builder = new ConfigurationBuilder();
+		var filterBuilder = new FilterBuilder();
+		for (var prefix : getReservedClasses()) {
+			filterBuilder.excludePackage(prefix);
+		}
+		filterBuilder.includePackage(findPackageNames().toArray(String[]::new));
+		builder.forPackages(findPackageNames().toArray(String[]::new)).filterInputsBy(filterBuilder);
+		return builder;
 	}
 
 	private static Object runJavaMethod(Object object, String methodName, Object... args)
@@ -125,19 +201,27 @@ public class ReflectionUtils {
 			}
 		}
 	}
-
 	// @formatter:off
-	private static Set<String> reservedClasses = new HashSet<>(
-	        Arrays.asList("java.", "jdk.", "sun.",
-	        		"com.sun.", "org.spring", "org.eclipse",
-	        		"org.junit", "org.apache", "org.slf4j",
-	        		"org.opentest4j", "org.apiguardian",
-	        		"lombok", "com.hazelcast", "org.aspectj",
-	        		"org.hibernate"));
+
+	private static Set<String> getReservedClasses(){
+		if (CollectionUtils.isEmpty(reservedClasses)) {
+			reservedClasses = new HashSet<String>();
+			try(var bufferedReader = new BufferedReader(new InputStreamReader(ReflectionUtils.class.getClassLoader().getResourceAsStream("excluded_packet_initials")))){
+				while (bufferedReader.ready()) {
+					var line = bufferedReader.readLine();
+					reservedClasses.add(line.strip());
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return reservedClasses;
+	}
+	private static Set<String> reservedClasses;
 	// @formatter:on
 
 	private static boolean isNotReserved(String name) {
-		var control = reservedClasses.stream().filter(t -> StringUtils.startsWith(name, t)).findFirst()
+		var control = getReservedClasses().stream().filter(t -> StringUtils.startsWith(name, t)).findFirst()
 		        .map(x -> Boolean.FALSE).orElse(Boolean.TRUE);
 		return control.booleanValue();
 	}

@@ -27,6 +27,11 @@ public class PAsserts {
 	private PAsserts() {
 	}
 
+	/**
+	 * @param text
+	 * @param message
+	 * @param exceptionSuplier
+	 */
 	public static void hasText(String text, Supplier<String> message,
 	        Supplier<Class<? extends RuntimeException>> exceptionSuplier) {
 		if (StringUtils.isBlank(text)) {
@@ -34,18 +39,30 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param text
+	 * @param message
+	 */
 	public static void hasText(String text, Supplier<String> message) {
 		if (StringUtils.isBlank(text)) {
 			throw new AssertException(nullSafeGet(message));
 		}
 	}
 
+	/**
+	 * @param text
+	 */
 	public static void hasText(String text) {
 		if (StringUtils.isBlank(text)) {
 			throw new AssertException();
 		}
 	}
 
+	/**
+	 * @param text
+	 * @param message
+	 * @param exceptionSuplier
+	 */
 	public static void noText(String text, Supplier<String> message,
 	        Supplier<Class<? extends RuntimeException>> exceptionSuplier) {
 		if (StringUtils.isNotEmpty(text)) {
@@ -53,24 +70,39 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param text
+	 * @param message
+	 */
 	public static void noText(String text, Supplier<String> message) {
 		if (StringUtils.isNotEmpty(text)) {
 			throw new AssertException(nullSafeGet(message));
 		}
 	}
 
+	/**
+	 * @param text
+	 */
 	public static void noText(String text) {
 		if (StringUtils.isNotEmpty(text)) {
 			throw new AssertException();
 		}
 	}
 
+	/**
+	 * @param array
+	 */
 	public static void notEmpty(Object[] array) {
 		if (ArrayUtils.isEmpty(array)) {
 			throw new AssertException();
 		}
 	}
 
+	/**
+	 * @param array
+	 * @param message
+	 * @param exceptionSuplier
+	 */
 	public static void notEmpty(Object[] array, Supplier<String> message,
 	        Supplier<Class<? extends RuntimeException>> exceptionSuplier) {
 		if (ArrayUtils.isEmpty(array)) {
@@ -78,12 +110,21 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param array
+	 * @param message
+	 */
 	public static void notEmpty(Object[] array, Supplier<String> message) {
 		if (ArrayUtils.isEmpty(array)) {
 			throw new AssertException(nullSafeGet(message));
 		}
 	}
 
+	/**
+	 * @param collection
+	 * @param message
+	 * @param exceptionSuplier
+	 */
 	public static void notEmpty(Collection<?> collection, Supplier<String> message,
 	        Supplier<Class<? extends RuntimeException>> exceptionSuplier) {
 		if (CollectionUtils.isEmpty(collection)) {
@@ -91,18 +132,30 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param collection
+	 * @param message
+	 */
 	public static void notEmpty(Collection<?> collection, Supplier<String> message) {
 		if (CollectionUtils.isEmpty(collection)) {
 			throw new AssertException(nullSafeGet(message));
 		}
 	}
 
+	/**
+	 * @param collection
+	 */
 	public static void notEmpty(Collection<?> collection) {
 		if (CollectionUtils.isEmpty(collection)) {
 			throw new AssertException();
 		}
 	}
 
+	/**
+	 * @param map
+	 * @param message
+	 * @param exceptionSuplier
+	 */
 	public static void notEmpty(Map<?, ?> map, Supplier<String> message,
 	        Supplier<Class<? extends RuntimeException>> exceptionSuplier) {
 		if (MapUtils.isEmpty(map)) {
@@ -110,12 +163,19 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param map
+	 * @param message
+	 */
 	public static void notEmpty(Map<?, ?> map, Supplier<String> message) {
 		if (MapUtils.isEmpty(map)) {
 			throw new AssertException(nullSafeGet(message));
 		}
 	}
 
+	/**
+	 * @param map
+	 */
 	public static void notEmpty(Map<?, ?> map) {
 		if (MapUtils.isEmpty(map)) {
 			throw new AssertException();
@@ -152,6 +212,12 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param text
+	 * @param key
+	 * @param message
+	 * @param exceptionSuplier
+	 */
 	public static void contains(String text, String key, Supplier<String> message,
 	        Supplier<Class<? extends RuntimeException>> exceptionSuplier) {
 		if (!StringUtils.contains(text, key)) {
@@ -159,18 +225,33 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param text
+	 * @param key
+	 * @param message
+	 */
 	public static void contains(String text, String key, Supplier<String> message) {
 		if (!StringUtils.contains(text, key)) {
 			throw new AssertException(nullSafeGet(message));
 		}
 	}
 
+	/**
+	 * @param text
+	 * @param key
+	 */
 	public static void contains(String text, String key) {
 		if (!StringUtils.contains(text, key)) {
 			throw new AssertException();
 		}
 	}
 
+	/**
+	 * @param objects
+	 * @param key
+	 * @param message
+	 * @param exceptionSuplier
+	 */
 	public static void contains(Object[] objects, Object key, Supplier<String> message,
 	        Supplier<Class<? extends RuntimeException>> exceptionSuplier) {
 		if (objects == null || !containingCheck(objects, key)) {
@@ -178,12 +259,21 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param objects
+	 * @param key
+	 * @param message
+	 */
 	public static void contains(Object[] objects, Object key, Supplier<String> message) {
 		if (objects == null || !containingCheck(objects, key)) {
 			throw new AssertException(nullSafeGet(message));
 		}
 	}
 
+	/**
+	 * @param objects
+	 * @param key
+	 */
 	public static void contains(Object[] objects, Object key) {
 		if (objects == null || !containingCheck(objects, key)) {
 			throw new AssertException();
@@ -200,6 +290,12 @@ public class PAsserts {
 		return control;
 	}
 
+	/**
+	 * @param objects
+	 * @param key
+	 * @param message
+	 * @param exceptionSuplier
+	 */
 	public static void contains(Collection<Object> objects, Object key, Supplier<String> message,
 	        Supplier<Class<? extends RuntimeException>> exceptionSuplier) {
 		if (objects == null || !containingCheck(objects, key)) {
@@ -207,12 +303,21 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param objects
+	 * @param key
+	 * @param message
+	 */
 	public static void contains(Collection<Object> objects, Object key, Supplier<String> message) {
 		if (objects == null || !containingCheck(objects, key)) {
 			throw new AssertException(nullSafeGet(message));
 		}
 	}
 
+	/**
+	 * @param objects
+	 * @param key
+	 */
 	public static void contains(Collection<Object> objects, Object key) {
 		if (objects == null || !containingCheck(objects, key)) {
 			throw new AssertException();
@@ -229,6 +334,10 @@ public class PAsserts {
 		return control;
 	}
 
+	/**
+	 * @param container
+	 * @param contains
+	 */
 	public static void contains(Object container, Object contains) {
 		if (container instanceof Collection<?>) {
 			containingCheck((Collection<?>) container, contains);
@@ -277,6 +386,10 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param value
+	 * @param key
+	 */
 	public static void equals(Object value, Object key) {
 		if (value instanceof String) {
 			equals((String) value, (String) key);
@@ -285,6 +398,11 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param value
+	 * @param key
+	 * @param message
+	 */
 	public static void equals(Object value, Object key, Supplier<String> message) {
 		if (value instanceof String) {
 			equals((String) value, (String) key, message);
@@ -293,6 +411,12 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param value
+	 * @param key
+	 * @param message
+	 * @param exceptionSuplier
+	 */
 	public static void equals(Object value, Object key, Supplier<String> message,
 	        Supplier<Class<? extends RuntimeException>> exceptionSuplier) {
 		if (value instanceof String) {
@@ -302,6 +426,11 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param value
+	 * @param message
+	 * @param exceptionSuplier
+	 */
 	public static void isTrue(boolean value, Supplier<String> message,
 	        Supplier<Class<? extends RuntimeException>> exceptionSuplier) {
 		if (!value) {
@@ -309,18 +438,30 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param value
+	 * @param message
+	 */
 	public static void isTrue(boolean value, Supplier<String> message) {
 		if (!value) {
 			throw new AssertException(nullSafeGet(message));
 		}
 	}
 
+	/**
+	 * @param value
+	 */
 	public static void isTrue(boolean value) {
 		if (!value) {
 			throw new AssertException();
 		}
 	}
 
+	/**
+	 * @param value
+	 * @param message
+	 * @param exceptionSuplier
+	 */
 	public static void isTrue(Boolean value, Supplier<String> message,
 	        Supplier<Class<? extends RuntimeException>> exceptionSuplier) {
 		if (!value.booleanValue()) {
@@ -328,18 +469,30 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param value
+	 * @param message
+	 */
 	public static void isTrue(Boolean value, Supplier<String> message) {
 		if (!value.booleanValue()) {
 			throw new AssertException(nullSafeGet(message));
 		}
 	}
 
+	/**
+	 * @param value
+	 */
 	public static void isTrue(Boolean value) {
 		if (!value.booleanValue()) {
 			throw new AssertException();
 		}
 	}
 
+	/**
+	 * @param value
+	 * @param message
+	 * @param exceptionSuplier
+	 */
 	public static void isFalse(boolean value, Supplier<String> message,
 	        Supplier<Class<? extends RuntimeException>> exceptionSuplier) {
 		if (value) {
@@ -347,18 +500,30 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param value
+	 * @param message
+	 */
 	public static void isFalse(boolean value, Supplier<String> message) {
 		if (value) {
 			throw new AssertException(nullSafeGet(message));
 		}
 	}
 
+	/**
+	 * @param value
+	 */
 	public static void isFalse(boolean value) {
 		if (value) {
 			throw new AssertException();
 		}
 	}
 
+	/**
+	 * @param value
+	 * @param message
+	 * @param exceptionSuplier
+	 */
 	public static void isFalse(Boolean value, Supplier<String> message,
 	        Supplier<Class<? extends RuntimeException>> exceptionSuplier) {
 		if (value.booleanValue()) {
@@ -366,18 +531,30 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param value
+	 * @param message
+	 */
 	public static void isFalse(Boolean value, Supplier<String> message) {
 		if (value.booleanValue()) {
 			throw new AssertException(nullSafeGet(message));
 		}
 	}
 
+	/**
+	 * @param value
+	 */
 	public static void isFalse(Boolean value) {
 		if (value.booleanValue()) {
 			throw new AssertException();
 		}
 	}
 
+	/**
+	 * @param value
+	 * @param message
+	 * @param exceptionSuplier
+	 */
 	public static void notNull(Object value, Supplier<String> message,
 	        Supplier<Class<? extends RuntimeException>> exceptionSuplier) {
 		if (value instanceof String) {
@@ -387,6 +564,10 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param value
+	 * @param message
+	 */
 	public static void notNull(Object value, Supplier<String> message) {
 		if (value instanceof String) {
 			hasText((String) value, message);
@@ -395,6 +576,9 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param value
+	 */
 	public static void notNull(Object value) {
 		if (value instanceof String) {
 			hasText((String) value);
@@ -403,6 +587,11 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param value
+	 * @param message
+	 * @param exceptionSuplier
+	 */
 	public static void isNull(Object value, Supplier<String> message,
 	        Supplier<Class<? extends RuntimeException>> exceptionSuplier) {
 		if (value instanceof String) {
@@ -412,6 +601,10 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param value
+	 * @param message
+	 */
 	public static void isNull(Object value, Supplier<String> message) {
 		if (value instanceof String) {
 			noText((String) value, message);
@@ -420,6 +613,9 @@ public class PAsserts {
 		}
 	}
 
+	/**
+	 * @param value
+	 */
 	public static void isNull(Object value) {
 		if (value instanceof String) {
 			noText((String) value);
