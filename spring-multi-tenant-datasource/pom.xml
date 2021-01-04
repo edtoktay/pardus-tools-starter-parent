@@ -4,13 +4,8 @@
 	<parent>
 		<groupId>tech.pardus</groupId>
 		<artifactId>pardus-tools-starter-parent</artifactId>
-		<version>0.0.3-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
-	<name>Spring Multi-Tenant Datasource</name>
-	<description>
-		Multi-Tenant Datasource to connect multiple datasource
-	</description>
-	<url>https://github.com/edtoktay/pardus-tools-starter-parent/tree/main/spring-multi-tenant-datasource</url>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
