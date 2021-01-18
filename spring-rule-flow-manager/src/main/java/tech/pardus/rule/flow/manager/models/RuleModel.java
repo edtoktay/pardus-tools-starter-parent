@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import tech.pardus.rule.flow.manager.RuleParser;
-import tech.pardus.rule.flow.manager.SpringContext;
+import tech.pardus.rule.flow.manager.FlowManagerSpringContext;
 import tech.pardus.rule.flow.manager.actions.ActionDispatcherManager;
 import tech.pardus.rule.flow.manager.datastruture.Node;
 
@@ -155,7 +155,7 @@ public class RuleModel implements Serializable {
 
 	private void processDispatcher(Node<RulePart> currentNode) throws Exception {
 		var actionModel = (ActionModel) currentNode.getData();
-		var managerBean = (ActionDispatcherManager) SpringContext.getBean(ActionDispatcherManager.class);
+		var managerBean = (ActionDispatcherManager) FlowManagerSpringContext.getBean(ActionDispatcherManager.class);
 		managerBean.runDispatcher(actionModel.getDispatcherName(), actionModel.getArgs());
 	}
 

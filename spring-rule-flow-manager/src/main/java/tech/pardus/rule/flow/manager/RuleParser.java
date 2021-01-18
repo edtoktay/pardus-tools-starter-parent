@@ -46,13 +46,14 @@ public class RuleParser {
 		var skel = parseSkeleton(in);
 		for (var sk : skel) {
 			var modelBuilder = ExpressionModel.expression();
-			System.out.println("RAW:  " + sk.getValue());
-			var strippedString = stripStart(sk.getRight(), " ");
+//			System.out.println("RAW:  " + sk.getValue());
+			var strippedString = sk.getRight().replaceAll("\n", " ").replaceAll("\r", "");
+			strippedString = stripStart(strippedString, " ");
 			strippedString = RegExUtils.removeAll(strippedString, "\t");
 			switch (getKeyword(strippedString)) {
 			case 0:
-				System.out.println("Level: " + sk.getLeft() + " IF STATEMENT: ");
-				System.out.println(strippedString);
+//				System.out.println("Level: " + sk.getLeft() + " IF STATEMENT: ");
+//				System.out.println(strippedString);
 				modelBuilder.isHeadExpression();
 				modelBuilder.expression(RuleStringOperations.extarctExpression(strippedString));
 				if (Objects.isNull(headNode)) {

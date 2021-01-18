@@ -33,7 +33,7 @@ public class JwtAccessDecisionVoter implements AccessDecisionVoter<FilterInvocat
 	@Override
 	public int vote(Authentication authentication, FilterInvocation object, Collection<ConfigAttribute> attributes) {
 		var registry = ModuleUrlSecurityRegistry.registry();
-		var tokenConsumer = SpringContext.getBean(TokenParser.class);
+		var tokenConsumer = WebSecuritySpringContext.getBean(TokenParser.class);
 		var url = object.getRequestUrl();
 		var method = RequestMethod.valueOf(object.getRequest().getMethod());
 		if (registry.isPublicUrl(method, url)) {

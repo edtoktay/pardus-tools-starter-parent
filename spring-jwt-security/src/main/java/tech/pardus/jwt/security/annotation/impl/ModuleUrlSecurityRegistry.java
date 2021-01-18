@@ -6,6 +6,7 @@ package tech.pardus.jwt.security.annotation.impl;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -84,7 +85,8 @@ public class ModuleUrlSecurityRegistry {
 	}
 
 	public boolean isSecuredUrl(RequestMethod method, String url) {
-		return getEndPoint(method, url).isSecuredEndPoint();
+		return Objects.nonNull(getEndPoint(method, url)) 
+				&& getEndPoint(method, url).isSecuredEndPoint();
 	}
 
 	public boolean isPublicUrl(RequestMethod method, String url) {

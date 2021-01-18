@@ -46,6 +46,7 @@ public class RuleStringOperations {
 	}
 
 	public static String stripeStringFromAphs(String string) {
+		string = string.strip();
 		var startIdx = 0;
 		var endIdx = string.length();
 		if (string.startsWith(APHS)) {

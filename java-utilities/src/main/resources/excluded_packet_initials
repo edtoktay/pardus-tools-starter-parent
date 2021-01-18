@@ -1,8 +1,8 @@
-java.
-javax.
-jdk.
-sun.
-com.sun.
+java
+javax
+jdk
+sun
+com.sun
 org.spring
 org.eclipse
 org.junit
@@ -25,3 +25,13 @@ org.apache.commons.pool2
 com.microsoft
 org.antlr
 org.osgi
+org.mockito
+org.ocpsoft
+org.eclipse
+com.github
+org.modelmapper
+springfox
+org.primefaces
+org.joinfaces
+org.python
+freemarker

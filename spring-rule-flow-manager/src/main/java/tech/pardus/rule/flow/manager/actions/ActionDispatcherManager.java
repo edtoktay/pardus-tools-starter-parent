@@ -21,7 +21,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import tech.pardus.rule.flow.manager.SpringContext;
+import tech.pardus.rule.flow.manager.FlowManagerSpringContext;
 import tech.pardus.rule.flow.manager.annotattions.DispatcherBean;
 import tech.pardus.utilities.LambdaWrapper;
 import tech.pardus.utilities.ReflectionUtils;
@@ -49,7 +49,7 @@ public class ActionDispatcherManager {
 	}
 
 	private void initiate() {
-		processBean(SpringContext.getActionBean(NullActionDispatcher.class));
+		processBean(FlowManagerSpringContext.getActionBean(NullActionDispatcher.class));
 		if (CollectionUtils.isNotEmpty(dispatchers)) {
 			dispatchers.stream().forEach(this::processBean);
 		}
@@ -73,6 +73,10 @@ public class ActionDispatcherManager {
 		return beanList.entrySet().stream().map(Entry::getValue).filter(t -> clazz.isAssignableFrom(t.getClazz()))
 		        .findFirst().map(t -> Boolean.TRUE).orElse(Boolean.FALSE);
 	}
+	
+	public List<String> listOfActionDispatcherNames() {
+		return List.copyOf(beanList.keySet());
+	}
 
 	public void runDispatcher(String name, String... args) throws Exception {
 		var beanDef = beanList.get(name);
@@ -80,7 +84,7 @@ public class ActionDispatcherManager {
 			beanDef = beanList.get("Default");
 		}
 		if (beanDef.isSpringBean()) {
-			var bean = SpringContext.getActionBean(beanDef.getClazz());
+			var bean = FlowManagerSpringContext.getActionBean(beanDef.getClazz());
 			bean.fire(args);
 		} else {
 			var bean = (ActionDispatcher) ReflectionUtils.initClass(beanDef.getClazz());

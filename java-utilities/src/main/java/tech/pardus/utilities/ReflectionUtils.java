@@ -22,8 +22,6 @@ import java.util.stream.Stream;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.reflections.Reflections;
-import org.reflections.util.ConfigurationBuilder;
-import org.reflections.util.FilterBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -143,7 +141,7 @@ public class ReflectionUtils {
 	}
 
 	public static Set<Class<?>> getAllClassesAnnotatedWith(Class<? extends Annotation> annotation) {
-		var reflections = new Reflections(reflectionConfigurationBuilder());
+		var reflections = new Reflections(findPackageNames());
 		return reflections.getTypesAnnotatedWith(annotation);
 	}
 
@@ -157,16 +155,6 @@ public class ReflectionUtils {
 		return reflections.getFieldsAnnotatedWith(annotation);
 	}
 
-	private static ConfigurationBuilder reflectionConfigurationBuilder() {
-		var builder = new ConfigurationBuilder();
-		var filterBuilder = new FilterBuilder();
-		for (var prefix : getReservedClasses()) {
-			filterBuilder.excludePackage(prefix);
-		}
-		filterBuilder.includePackage(findPackageNames().toArray(String[]::new));
-		builder.forPackages(findPackageNames().toArray(String[]::new)).filterInputsBy(filterBuilder);
-		return builder;
-	}
 
 	private static Object runJavaMethod(Object object, String methodName, Object... args)
 	        throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {

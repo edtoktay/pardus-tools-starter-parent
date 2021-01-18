@@ -8,14 +8,13 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import tech.pardus.rule.flow.manager.SpringConfiguration;
 import tech.pardus.rule.flow.manager.models.RuleModel;
 
 /**
  * @author deniz.toktay
  * @since Sep 26, 2020
  */
-@SpringBootTest(classes = { App.class, SpringConfiguration.class })
+@SpringBootTest(classes = { App.class })
 class ParserTest {
 
 // @formatter:off

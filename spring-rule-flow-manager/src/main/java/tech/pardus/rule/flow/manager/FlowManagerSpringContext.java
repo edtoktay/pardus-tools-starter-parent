@@ -15,7 +15,7 @@ import tech.pardus.rule.flow.manager.actions.ActionDispatcher;
  * @since Sep 26, 2020
  */
 @Component
-public class SpringContext implements ApplicationContextAware {
+public class FlowManagerSpringContext implements ApplicationContextAware {
 
 	private static ApplicationContext context;
 
@@ -29,7 +29,7 @@ public class SpringContext implements ApplicationContextAware {
 
 	@Override
 	public void setApplicationContext(ApplicationContext context) throws BeansException {
-		SpringContext.context = context;
+		FlowManagerSpringContext.context = context;
 	}
 
 }

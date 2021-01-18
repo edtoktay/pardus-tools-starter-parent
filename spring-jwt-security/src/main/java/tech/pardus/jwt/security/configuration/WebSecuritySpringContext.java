@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @since Sep 26, 2020
  */
 @Component
-public class SpringContext implements ApplicationContextAware {
+public class WebSecuritySpringContext implements ApplicationContextAware {
 
 	private static ApplicationContext context;
 
@@ -22,7 +22,7 @@ public class SpringContext implements ApplicationContextAware {
 
 	@Override
 	public void setApplicationContext(ApplicationContext context) {
-		SpringContext.context = context;
+		WebSecuritySpringContext.context = context;
 	}
 
 	public static Object getBean(String beanName) {

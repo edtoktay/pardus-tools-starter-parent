@@ -19,7 +19,7 @@ import tech.pardus.rule.flow.manager.operations.Operations;
 @Configuration
 @AutoConfigurationPackage
 @ComponentScan(basePackages = { "tech.pardus.rule.flow.manager", "tech.pardus.rule.flow.manager.actions" })
-public class SpringConfiguration {
+public class SpringFlowManagerConfiguration {
 
 	@Autowired
 	private ActionDispatcherManager dispatcherManager;

@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration= \
-tech.pardus.rule.flow.manager.SpringConfiguration
+tech.pardus.rule.flow.manager.SpringFlowManagerConfiguration
