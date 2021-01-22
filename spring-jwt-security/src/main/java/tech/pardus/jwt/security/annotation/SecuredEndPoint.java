@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.jwt.security.annotation;
 
 import java.lang.annotation.Documented;
@@ -18,8 +16,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface SecuredEndPoint {
 
-	String accessKey() default "";
+  String accessKey() default "";
 
-	String[] roles() default {};
-
+  String[] roles() default {};
 }

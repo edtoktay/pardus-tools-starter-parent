@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.jwt.security.configuration;
 
 import org.springframework.context.ApplicationContext;
@@ -14,19 +12,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebSecuritySpringContext implements ApplicationContextAware {
 
-	private static ApplicationContext context;
+  private static ApplicationContext context;
 
-	public static <T extends Object> T getBean(Class<T> beanClass) {
-		return context.getBean(beanClass);
-	}
+  public static <T extends Object> T getBean(Class<T> beanClass) {
+    return context.getBean(beanClass);
+  }
 
-	@Override
-	public void setApplicationContext(ApplicationContext context) {
-		WebSecuritySpringContext.context = context;
-	}
+  @Override
+  public void setApplicationContext(ApplicationContext context) {
+    WebSecuritySpringContext.context = context;
+  }
 
-	public static Object getBean(String beanName) {
-		return context.getBean(beanName);
-	}
-
+  public static Object getBean(String beanName) {
+    return context.getBean(beanName);
+  }
 }

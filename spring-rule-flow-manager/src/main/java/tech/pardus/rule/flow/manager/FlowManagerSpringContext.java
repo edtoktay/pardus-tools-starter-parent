@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.rule.flow.manager;
 
 import org.springframework.beans.BeansException;
@@ -17,19 +15,18 @@ import tech.pardus.rule.flow.manager.actions.ActionDispatcher;
 @Component
 public class FlowManagerSpringContext implements ApplicationContextAware {
 
-	private static ApplicationContext context;
+  private static ApplicationContext context;
 
-	public static <T extends ActionDispatcher> T getActionBean(Class<T> beanClass) {
-		return context.getBean(beanClass);
-	}
+  public static <T extends ActionDispatcher> T getActionBean(Class<T> beanClass) {
+    return context.getBean(beanClass);
+  }
 
-	public static Object getBean(Class<?> beanClass) {
-		return context.getBean(beanClass);
-	}
+  public static Object getBean(Class<?> beanClass) {
+    return context.getBean(beanClass);
+  }
 
-	@Override
-	public void setApplicationContext(ApplicationContext context) throws BeansException {
-		FlowManagerSpringContext.context = context;
-	}
-
+  @Override
+  public void setApplicationContext(ApplicationContext context) throws BeansException {
+    FlowManagerSpringContext.context = context;
+  }
 }

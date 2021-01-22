@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.rule.flow.manager.expressions;
 
 import java.io.Serializable;
@@ -13,6 +11,5 @@ import java.util.Map;
 @FunctionalInterface
 public interface Expression extends Serializable {
 
-	boolean interpret(Map<String, ?> bindings);
-
+  boolean interpret(Map<String, ?> bindings);
 }

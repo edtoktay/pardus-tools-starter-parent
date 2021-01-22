@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.jwt.security.configuration;
 
 import java.util.Arrays;
@@ -26,51 +24,46 @@ import tech.pardus.jwt.security.properties.JwtConsumerProperties;
  * @author deniz.toktay
  * @since Oct 29, 2020
  */
-//@formatter:off
+// @formatter:off
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-		prePostEnabled = true,
-		jsr250Enabled = true,
-		securedEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true, securedEnabled = true)
 @ConditionalOnBean(value = JwtConsumerProperties.class)
-//@formatter:on
+// @formatter:on
 public class ServiceSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private TokenAuthenticationEntryPoint tokenAuthenticationEntryPoint;
+  @Autowired private TokenAuthenticationEntryPoint tokenAuthenticationEntryPoint;
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		// @formatter:off
-		http
-			.csrf()
-				.disable()
-			.authorizeRequests()
-				.accessDecisionManager(accessDecisionManager())
-			.anyRequest()
-				.authenticated()
-			.and()
-				.exceptionHandling()
-				.authenticationEntryPoint(tokenAuthenticationEntryPoint)
-			.and()
-				.sessionManagement()
-					.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		// @formatter:on
-	}
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    // @formatter:off
+    http.csrf()
+        .disable()
+        .authorizeRequests()
+        .accessDecisionManager(accessDecisionManager())
+        .anyRequest()
+        .authenticated()
+        .and()
+        .exceptionHandling()
+        .authenticationEntryPoint(tokenAuthenticationEntryPoint)
+        .and()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    // @formatter:on
+  }
 
-	@Bean
-	public AccessDecisionManager accessDecisionManager() {
-		List<AccessDecisionVoter<? extends Object>> voters = Arrays.asList(new JwtAccessDecisionVoter());
-		return new UnanimousBased(voters);
-	}
+  @Bean
+  public AccessDecisionManager accessDecisionManager() {
+    List<AccessDecisionVoter<? extends Object>> voters =
+        Arrays.asList(new JwtAccessDecisionVoter());
+    return new UnanimousBased(voters);
+  }
 
-	@Bean
-	public FilterRegistrationBean<XSSFilter> xssPreventFilter() {
-		var registrationBean = new FilterRegistrationBean<XSSFilter>();
-		registrationBean.setFilter(new XSSFilter());
-		registrationBean.addUrlPatterns("/*");
-		return registrationBean;
-	}
-
+  @Bean
+  public FilterRegistrationBean<XSSFilter> xssPreventFilter() {
+    var registrationBean = new FilterRegistrationBean<XSSFilter>();
+    registrationBean.setFilter(new XSSFilter());
+    registrationBean.addUrlPatterns("/*");
+    return registrationBean;
+  }
 }

@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.jwt.security.properties;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -19,16 +17,19 @@ import lombok.Setter;
 @Setter
 @Configuration
 @ConfigurationProperties("security.jwt.token")
-@ConditionalOnProperty(prefix = "security.jwt.token", name = "issuer", havingValue = "false", matchIfMissing = true)
+@ConditionalOnProperty(
+    prefix = "security.jwt.token",
+    name = "issuer",
+    havingValue = "false",
+    matchIfMissing = true)
 public class JwtConsumerProperties implements JwtProperties {
 
-	@Value("${security.jwt.tokenissuer:false}")
-	private boolean issuer;
+  @Value("${security.jwt.tokenissuer:false}")
+  private boolean issuer;
 
-	private String signKey;
+  private String signKey;
 
-	private String header;
+  private String header;
 
-	private String headerPrefix;
-
+  private String headerPrefix;
 }

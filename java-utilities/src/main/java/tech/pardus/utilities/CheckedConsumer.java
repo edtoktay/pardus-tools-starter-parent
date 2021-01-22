@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.utilities;
 
 /**
@@ -12,10 +10,9 @@ package tech.pardus.utilities;
 @FunctionalInterface
 public interface CheckedConsumer<T, E extends Exception> {
 
-	/**
-	 * @param t
-	 * @throws E
-	 */
-	void accept(T t) throws E;
-
+  /**
+   * @param t
+   * @throws E
+   */
+  void accept(T t) throws E;
 }

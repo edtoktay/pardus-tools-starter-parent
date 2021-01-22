@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.jwt.security.operations;
 
 import java.util.Collection;
@@ -31,55 +29,51 @@ import tech.pardus.jwt.security.properties.JwtProperties;
 @Component
 public class TokenParser {
 
-	@Resource
-	private HttpServletRequest request;
+  @Resource private HttpServletRequest request;
 
-	@Autowired
-	private JwtProperties jwtProperties;
+  @Autowired private JwtProperties jwtProperties;
 
-	@SuppressWarnings("unchecked")
-	public UserDetails parseClaims(String token) {
-		// @formatter:off
-		var claims = Jwts
-						.parser()
-							.setSigningKey(jwtProperties.getSignKey())
-						.parseClaimsJws(token);
-		var user = new User(
-					claims.getBody().getSubject(),
-					"",
-					(Collection<? extends GrantedAuthority>)
-						claims
-							.getBody()
-								.get("roles", List.class)
-									.stream()
-										.map(auth -> new SimpleGrantedAuthority((String) auth))
-									.collect(Collectors.toList()));
-		SecurityContextHolder
-			.getContext()
-				.setAuthentication(
-						new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-		return user;
-		// @formatter:on
-	}
+  @SuppressWarnings("unchecked")
+  public UserDetails parseClaims(String token) {
+    // @formatter:off
+    var claims = Jwts.parser().setSigningKey(jwtProperties.getSignKey()).parseClaimsJws(token);
+    var user =
+        new User(
+            claims.getBody().getSubject(),
+            "",
+            (Collection<? extends GrantedAuthority>)
+                claims
+                    .getBody()
+                    .get("roles", List.class)
+                    .stream()
+                    .map(auth -> new SimpleGrantedAuthority((String) auth))
+                    .collect(Collectors.toList()));
+    SecurityContextHolder.getContext()
+        .setAuthentication(
+            new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+    return user;
+    // @formatter:on
+  }
 
-	public UserDetails parseClaims() {
-		if (hasToken()) {
-			return parseClaims(getToken());
-		}
-		throw new TokenMissingException("token_not_presented");
-	}
+  public UserDetails parseClaims() {
+    if (hasToken()) {
+      return parseClaims(getToken());
+    }
+    throw new TokenMissingException("token_not_presented");
+  }
 
-	public boolean hasToken() {
-		return StringUtils.isNotBlank(getToken());
-	}
+  public boolean hasToken() {
+    return StringUtils.isNotBlank(getToken());
+  }
 
-	public String getToken() {
-		var requestTokenHeader = request.getHeader(jwtProperties.getHeader());
-		if (requestTokenHeader != null && requestTokenHeader.startsWith(jwtProperties.getHeaderPrefix())) {
-			var jwtToken = requestTokenHeader.substring(jwtProperties.getHeaderPrefix().strip().length() + 1);
-			return jwtToken;
-		}
-		return null;
-	}
-
+  public String getToken() {
+    var requestTokenHeader = request.getHeader(jwtProperties.getHeader());
+    if (requestTokenHeader != null
+        && requestTokenHeader.startsWith(jwtProperties.getHeaderPrefix())) {
+      var jwtToken =
+          requestTokenHeader.substring(jwtProperties.getHeaderPrefix().strip().length() + 1);
+      return jwtToken;
+    }
+    return null;
+  }
 }

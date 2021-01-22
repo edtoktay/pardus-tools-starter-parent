@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.utilities.test;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -18,11 +16,10 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(OrderAnnotation.class)
 class ReflectionUtilsTest {
 
-	@Test
-	@Order(1)
-	void test_can_not_find_main() throws ClassNotFoundException {
-		var mainClass = getMainClass();
-		assertNull(mainClass);
-	}
-
+  @Test
+  @Order(1)
+  void test_can_not_find_main() throws ClassNotFoundException {
+    var mainClass = getMainClass();
+    assertNull(mainClass);
+  }
 }

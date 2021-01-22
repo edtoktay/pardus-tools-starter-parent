@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.rule.flow.manager;
 
 /**
@@ -9,17 +7,14 @@ package tech.pardus.rule.flow.manager;
  */
 public class InvalidRuleStructure extends RuntimeException {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+  /** */
+  private static final long serialVersionUID = 1L;
 
-	public InvalidRuleStructure() {
-		super();
-	}
+  public InvalidRuleStructure() {
+    super();
+  }
 
-	public InvalidRuleStructure(String message) {
-		super(message);
-	}
-
+  public InvalidRuleStructure(String message) {
+    super(message);
+  }
 }

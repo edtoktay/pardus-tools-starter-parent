@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.jwt.security;
 
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
@@ -14,12 +12,11 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @AutoConfigurationPackage
-@ComponentScan(basePackages = { "tech.pardus.jwt.security" })
+@ComponentScan(basePackages = {"tech.pardus.jwt.security"})
 public class SpringSecurityConfiguration {
 
-	@Bean
-	public String jwtSecurityInit() {
-		return "OK";
-	}
-
+  @Bean
+  public String jwtSecurityInit() {
+    return "OK";
+  }
 }

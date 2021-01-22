@@ -11,6 +11,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TestObj {
 
-	private String val;
-
+  private String val;
 }

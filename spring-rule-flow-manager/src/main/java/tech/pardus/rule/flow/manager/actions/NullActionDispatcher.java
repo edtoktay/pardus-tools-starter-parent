@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.rule.flow.manager.actions;
 
 import java.util.stream.Stream;
@@ -19,17 +17,14 @@ import tech.pardus.rule.flow.manager.annotattions.DispatcherBean;
 @Component
 public class NullActionDispatcher implements ActionDispatcher {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+  /** */
+  private static final long serialVersionUID = 1L;
 
-	private static final Logger logger = LoggerFactory.getLogger(NullActionDispatcher.class);
+  private static final Logger logger = LoggerFactory.getLogger(NullActionDispatcher.class);
 
-	@Override
-	public void fire(String... args) {
-		logger.debug("Default Null Action Triggred");
-		Stream.of(args).forEach(System.out::println);
-	}
-
+  @Override
+  public void fire(String... args) {
+    logger.debug("Default Null Action Triggred");
+    Stream.of(args).forEach(System.out::println);
+  }
 }

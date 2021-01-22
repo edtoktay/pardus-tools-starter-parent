@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.rule.flow.manager.models;
 
 import lombok.Getter;
@@ -18,56 +16,52 @@ import tech.pardus.utilities.PAsserts;
 @NoArgsConstructor
 public class ExpressionModel implements RulePart {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+  /** */
+  private static final long serialVersionUID = 1L;
 
-	private Expression expression;
+  private Expression expression;
 
-	private boolean elseExpression = false;
+  private boolean elseExpression = false;
 
-	private boolean headExpression = false;
+  private boolean headExpression = false;
 
-	public static ExpressionBuilder expression() {
-		return new ExpressionModel.ExpressionBuilder();
-	}
+  public static ExpressionBuilder expression() {
+    return new ExpressionModel.ExpressionBuilder();
+  }
 
-	/**
-	 * @author deniz.toktay
-	 * @since Sep 10, 2020
-	 */
-	@NoArgsConstructor
-	public static class ExpressionBuilder {
+  /**
+   * @author deniz.toktay
+   * @since Sep 10, 2020
+   */
+  @NoArgsConstructor
+  public static class ExpressionBuilder {
 
-		private final ExpressionModel managedInstance = new ExpressionModel();
+    private final ExpressionModel managedInstance = new ExpressionModel();
 
-		public ExpressionBuilder expression(Expression expr) {
-			PAsserts.isFalse(managedInstance.elseExpression, () -> "already_defined_else");
-			this.managedInstance.expression = expr;
-			return this;
-		}
+    public ExpressionBuilder expression(Expression expr) {
+      PAsserts.isFalse(managedInstance.elseExpression, () -> "already_defined_else");
+      this.managedInstance.expression = expr;
+      return this;
+    }
 
-		public ExpressionBuilder elseExpression() {
-			PAsserts.isNull(managedInstance.expression, () -> "already_defined_rule");
-			managedInstance.elseExpression = true;
-			return this;
-		}
+    public ExpressionBuilder elseExpression() {
+      PAsserts.isNull(managedInstance.expression, () -> "already_defined_rule");
+      managedInstance.elseExpression = true;
+      return this;
+    }
 
-		public ExpressionBuilder isHeadExpression() {
-			managedInstance.headExpression = true;
-			return this;
-		}
+    public ExpressionBuilder isHeadExpression() {
+      managedInstance.headExpression = true;
+      return this;
+    }
 
-		public ExpressionModel addExpression() {
-			return managedInstance;
-		}
+    public ExpressionModel addExpression() {
+      return managedInstance;
+    }
+  }
 
-	}
-
-	@Override
-	public RulePartType getTypeOfRule() {
-		return RulePartType.STATEMENT;
-	}
-
+  @Override
+  public RulePartType getTypeOfRule() {
+    return RulePartType.STATEMENT;
+  }
 }

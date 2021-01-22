@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.utilities;
 
 /**
@@ -9,16 +7,11 @@ package tech.pardus.utilities;
  */
 public class CheckedException extends RuntimeException {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+  /** */
+  private static final long serialVersionUID = 1L;
 
-	/**
-	 * @param cause
-	 */
-	public CheckedException(Throwable cause) {
-		super(cause);
-	}
-
+  /** @param cause */
+  public CheckedException(Throwable cause) {
+    super(cause);
+  }
 }

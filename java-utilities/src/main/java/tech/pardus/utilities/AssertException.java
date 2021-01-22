@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.utilities;
 
 /**
@@ -9,22 +7,14 @@ package tech.pardus.utilities;
  */
 public class AssertException extends RuntimeException {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -3688580823601372463L;
+  /** */
+  private static final long serialVersionUID = -3688580823601372463L;
 
-	/**
-	 *
-	 */
-	public AssertException() {
-	}
+  /** */
+  public AssertException() {}
 
-	/**
-	 * @param message
-	 */
-	public AssertException(String message) {
-		super(message);
-	}
-
+  /** @param message */
+  public AssertException(String message) {
+    super(message);
+  }
 }

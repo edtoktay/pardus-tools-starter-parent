@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.multitenant.datasource.entity.audition;
 
 import java.util.Optional;
@@ -16,21 +14,20 @@ import tech.pardus.utilities.SessionUserContextHolder;
  */
 public class EntityAuditorAware implements AuditorAware<String> {
 
-	@Override
-	public Optional<String> getCurrentAuditor() {
-		return Optional.of(getCurrentUser());
-	}
+  @Override
+  public Optional<String> getCurrentAuditor() {
+    return Optional.of(getCurrentUser());
+  }
 
-	private String getCurrentUser() {
-		String user = "SYSTEM";
-		try {
-			var sessionUser = SessionUserContextHolder.getCurrentSessionUser();
-			if (StringUtils.isNotBlank(sessionUser)) {
-				user = sessionUser;
-			}
-		} catch (Exception e) {
-		}
-		return user;
-	}
-
+  private String getCurrentUser() {
+    String user = "SYSTEM";
+    try {
+      var sessionUser = SessionUserContextHolder.getCurrentSessionUser();
+      if (StringUtils.isNotBlank(sessionUser)) {
+        user = sessionUser;
+      }
+    } catch (Exception e) {
+    }
+    return user;
+  }
 }

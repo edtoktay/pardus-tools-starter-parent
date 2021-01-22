@@ -28,93 +28,92 @@ import tech.pardus.utilities.PAsserts;
  */
 public abstract class AbstractEncryptionConverter<T> implements AttributeConverter<T, String> {
 
-	private static final Logger log = LoggerFactory.getLogger(AbstractEncryptionConverter.class);
+  private static final Logger log = LoggerFactory.getLogger(AbstractEncryptionConverter.class);
 
-	private EncryptionCipher cipherMaker;
+  private EncryptionCipher cipherMaker;
 
-	@Setter
-	@Getter
-	private String encryptionKey;
+  @Setter @Getter private String encryptionKey;
 
-	public AbstractEncryptionConverter(EncryptionCipher cipherMaker, String encryptionKey) {
-		this.cipherMaker = cipherMaker;
-		this.encryptionKey = encryptionKey;
-	}
+  public AbstractEncryptionConverter(EncryptionCipher cipherMaker, String encryptionKey) {
+    this.cipherMaker = cipherMaker;
+    this.encryptionKey = encryptionKey;
+  }
 
-	public AbstractEncryptionConverter(EncryptionCipher cipherMaker) {
-		this(cipherMaker, "Hedeleme_Hodolomo_Hebele");
-	}
+  public AbstractEncryptionConverter(EncryptionCipher cipherMaker) {
+    this(cipherMaker, "Hedeleme_Hodolomo_Hebele");
+  }
 
-	public AbstractEncryptionConverter(String encryptionKey) {
-		this(new EncryptionCipher(), encryptionKey);
-	}
+  public AbstractEncryptionConverter(String encryptionKey) {
+    this(new EncryptionCipher(), encryptionKey);
+  }
 
-	public AbstractEncryptionConverter() {
-		this(new EncryptionCipher(), "Hedeleme_Hodolomo_Hebele");
-	}
+  public AbstractEncryptionConverter() {
+    this(new EncryptionCipher(), "Hedeleme_Hodolomo_Hebele");
+  }
 
-	@Override
-	public String convertToDatabaseColumn(T attribute) {
-		PAsserts.hasText(getEncryptionKey(), () -> "no_encryption_key");
-		if (Objects.nonNull(attribute)) {
-			try {
-				var cipher = cipherMaker.configureAndGetInstance(Cipher.ENCRYPT_MODE, getEncryptionKey());
-				return encryptData(cipher, attribute);
-			} catch (InvalidKeyException e) {
-				log.error("db_encryption_error", e);
-			} catch (NoSuchPaddingException e) {
-				log.error("db_encryption_error", e);
-			} catch (NoSuchAlgorithmException e) {
-				log.error("db_encryption_error", e);
-			} catch (InvalidAlgorithmParameterException e) {
-				log.error("db_encryption_error", e);
-			} catch (IllegalBlockSizeException e) {
-				log.error("db_encryption_error", e);
-			} catch (BadPaddingException e) {
-				log.error("db_encryption_error", e);
-			}
-		}
-		return convertEntityAttributeToString(attribute);
-	}
+  @Override
+  public String convertToDatabaseColumn(T attribute) {
+    PAsserts.hasText(getEncryptionKey(), () -> "no_encryption_key");
+    if (Objects.nonNull(attribute)) {
+      try {
+        var cipher = cipherMaker.configureAndGetInstance(Cipher.ENCRYPT_MODE, getEncryptionKey());
+        return encryptData(cipher, attribute);
+      } catch (InvalidKeyException e) {
+        log.error("db_encryption_error", e);
+      } catch (NoSuchPaddingException e) {
+        log.error("db_encryption_error", e);
+      } catch (NoSuchAlgorithmException e) {
+        log.error("db_encryption_error", e);
+      } catch (InvalidAlgorithmParameterException e) {
+        log.error("db_encryption_error", e);
+      } catch (IllegalBlockSizeException e) {
+        log.error("db_encryption_error", e);
+      } catch (BadPaddingException e) {
+        log.error("db_encryption_error", e);
+      }
+    }
+    return convertEntityAttributeToString(attribute);
+  }
 
-	@Override
-	public T convertToEntityAttribute(String dbData) {
-		PAsserts.hasText(getEncryptionKey(), () -> "no_encryption_key");
-		if (StringUtils.isNotBlank(dbData)) {
-			try {
-				var cipher = cipherMaker.configureAndGetInstance(Cipher.DECRYPT_MODE, getEncryptionKey());
-				return decryptData(cipher, dbData);
-			} catch (InvalidKeyException e) {
-				log.error("db_encryption_error", e);
-			} catch (NoSuchPaddingException e) {
-				log.error("db_encryption_error", e);
-			} catch (NoSuchAlgorithmException e) {
-				log.error("db_encryption_error", e);
-			} catch (InvalidAlgorithmParameterException e) {
-				log.error("db_encryption_error", e);
-			} catch (IllegalBlockSizeException e) {
-				log.error("db_encryption_error", e);
-			} catch (BadPaddingException e) {
-				log.error("db_encryption_error", e);
-			}
-		}
-		return convertStringToEntityAttribute(dbData);
-	}
+  @Override
+  public T convertToEntityAttribute(String dbData) {
+    PAsserts.hasText(getEncryptionKey(), () -> "no_encryption_key");
+    if (StringUtils.isNotBlank(dbData)) {
+      try {
+        var cipher = cipherMaker.configureAndGetInstance(Cipher.DECRYPT_MODE, getEncryptionKey());
+        return decryptData(cipher, dbData);
+      } catch (InvalidKeyException e) {
+        log.error("db_encryption_error", e);
+      } catch (NoSuchPaddingException e) {
+        log.error("db_encryption_error", e);
+      } catch (NoSuchAlgorithmException e) {
+        log.error("db_encryption_error", e);
+      } catch (InvalidAlgorithmParameterException e) {
+        log.error("db_encryption_error", e);
+      } catch (IllegalBlockSizeException e) {
+        log.error("db_encryption_error", e);
+      } catch (BadPaddingException e) {
+        log.error("db_encryption_error", e);
+      }
+    }
+    return convertStringToEntityAttribute(dbData);
+  }
 
-	private String encryptData(Cipher cipher, T attribute) throws IllegalBlockSizeException, BadPaddingException {
-		var bytesToEncrypt = convertEntityAttributeToString(attribute).getBytes();
-		var encryptedBytes = cipher.doFinal(bytesToEncrypt);
-		return Base64.getEncoder().encodeToString(encryptedBytes);
-	}
+  private String encryptData(Cipher cipher, T attribute)
+      throws IllegalBlockSizeException, BadPaddingException {
+    var bytesToEncrypt = convertEntityAttributeToString(attribute).getBytes();
+    var encryptedBytes = cipher.doFinal(bytesToEncrypt);
+    return Base64.getEncoder().encodeToString(encryptedBytes);
+  }
 
-	private T decryptData(Cipher cipher, String dbData) throws IllegalBlockSizeException, BadPaddingException {
-		var bytesToDecrypt = Base64.getDecoder().decode(dbData);
-		var decryptedBytes = cipher.doFinal(bytesToDecrypt);
-		return convertStringToEntityAttribute(new String(decryptedBytes));
-	}
+  private T decryptData(Cipher cipher, String dbData)
+      throws IllegalBlockSizeException, BadPaddingException {
+    var bytesToDecrypt = Base64.getDecoder().decode(dbData);
+    var decryptedBytes = cipher.doFinal(bytesToDecrypt);
+    return convertStringToEntityAttribute(new String(decryptedBytes));
+  }
 
-	public abstract T convertStringToEntityAttribute(String dbData);
+  public abstract T convertStringToEntityAttribute(String dbData);
 
-	public abstract String convertEntityAttributeToString(T attribute);
-
+  public abstract String convertEntityAttributeToString(T attribute);
 }

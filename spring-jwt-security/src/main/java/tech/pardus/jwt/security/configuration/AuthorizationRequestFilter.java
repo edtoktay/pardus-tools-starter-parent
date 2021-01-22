@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.jwt.security.configuration;
 
 import java.io.IOException;
@@ -18,10 +16,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
  */
 public class AuthorizationRequestFilter extends OncePerRequestFilter {
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-	        throws ServletException, IOException {
-		filterChain.doFilter(request, response);
-	}
-
+  @Override
+  protected void doFilterInternal(
+      HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+      throws ServletException, IOException {
+    filterChain.doFilter(request, response);
+  }
 }

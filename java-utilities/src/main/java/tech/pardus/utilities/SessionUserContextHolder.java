@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.utilities;
 
 /**
@@ -9,18 +7,17 @@ package tech.pardus.utilities;
  */
 public class SessionUserContextHolder {
 
-	private static InheritableThreadLocal<String> sessionContext = new InheritableThreadLocal<>();
+  private static InheritableThreadLocal<String> sessionContext = new InheritableThreadLocal<>();
 
-	public static void setCurrentSessionUser(String username) {
-		sessionContext.set(username);
-	}
+  public static void setCurrentSessionUser(String username) {
+    sessionContext.set(username);
+  }
 
-	public static String getCurrentSessionUser() {
-		return sessionContext.get();
-	}
+  public static String getCurrentSessionUser() {
+    return sessionContext.get();
+  }
 
-	public static void clear() {
-		sessionContext.remove();
-	}
-
+  public static void clear() {
+    sessionContext.remove();
+  }
 }

@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.multitenant.datasource.exceptions;
 
 /**
@@ -9,48 +7,38 @@ package tech.pardus.multitenant.datasource.exceptions;
  */
 public class DatasourceAnnotationException extends RuntimeException {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+  /** */
+  private static final long serialVersionUID = 1L;
 
-	/**
-	 *
-	 */
-	public DatasourceAnnotationException() {
-	}
+  /** */
+  public DatasourceAnnotationException() {}
 
-	/**
-	 * @param message
-	 */
-	public DatasourceAnnotationException(String message) {
-		super(message);
-	}
+  /** @param message */
+  public DatasourceAnnotationException(String message) {
+    super(message);
+  }
 
-	/**
-	 * @param cause
-	 */
-	public DatasourceAnnotationException(Throwable cause) {
-		super(cause);
-	}
+  /** @param cause */
+  public DatasourceAnnotationException(Throwable cause) {
+    super(cause);
+  }
 
-	/**
-	 * @param message
-	 * @param cause
-	 */
-	public DatasourceAnnotationException(String message, Throwable cause) {
-		super(message, cause);
-	}
+  /**
+   * @param message
+   * @param cause
+   */
+  public DatasourceAnnotationException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-	/**
-	 * @param message
-	 * @param cause
-	 * @param enableSuppression
-	 * @param writableStackTrace
-	 */
-	public DatasourceAnnotationException(String message, Throwable cause, boolean enableSuppression,
-	        boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-	}
-
+  /**
+   * @param message
+   * @param cause
+   * @param enableSuppression
+   * @param writableStackTrace
+   */
+  public DatasourceAnnotationException(
+      String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    super(message, cause, enableSuppression, writableStackTrace);
+  }
 }

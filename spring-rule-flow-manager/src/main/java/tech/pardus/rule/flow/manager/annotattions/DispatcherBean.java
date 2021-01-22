@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.rule.flow.manager.annotattions;
 
 import java.lang.annotation.Documented;
@@ -18,6 +16,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface DispatcherBean {
 
-	String name();
-
+  String name();
 }

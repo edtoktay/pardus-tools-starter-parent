@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.rule.flow.manager.models;
 
 import java.io.Serializable;
@@ -11,10 +9,9 @@ import java.io.Serializable;
  */
 public interface RulePart extends Serializable {
 
-	RulePartType getTypeOfRule();
+  RulePartType getTypeOfRule();
 
-	default boolean isStatement() {
-		return getTypeOfRule() == RulePartType.STATEMENT;
-	}
-
+  default boolean isStatement() {
+    return getTypeOfRule() == RulePartType.STATEMENT;
+  }
 }

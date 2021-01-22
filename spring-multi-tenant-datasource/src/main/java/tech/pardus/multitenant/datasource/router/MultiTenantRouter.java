@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.multitenant.datasource.router;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
@@ -11,9 +9,8 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
  */
 public class MultiTenantRouter extends AbstractRoutingDataSource {
 
-	@Override
-	protected Object determineCurrentLookupKey() {
-		return DatasourceRoutingHolder.getCurrentDb();
-	}
-
+  @Override
+  protected Object determineCurrentLookupKey() {
+    return DatasourceRoutingHolder.getCurrentDb();
+  }
 }

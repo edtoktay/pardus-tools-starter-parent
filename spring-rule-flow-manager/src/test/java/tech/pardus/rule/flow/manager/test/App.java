@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.rule.flow.manager.test;
 
 import org.springframework.boot.SpringApplication;
@@ -15,11 +13,8 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan("tech.pardus.rule.flow.manager")
 public class App {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		SpringApplication.run(App.class, args);
-	}
-
+  /** @param args */
+  public static void main(String[] args) {
+    SpringApplication.run(App.class, args);
+  }
 }

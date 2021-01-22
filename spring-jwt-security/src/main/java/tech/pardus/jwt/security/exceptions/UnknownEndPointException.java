@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.jwt.security.exceptions;
 
 /**
@@ -9,9 +7,6 @@ package tech.pardus.jwt.security.exceptions;
  */
 public class UnknownEndPointException extends RuntimeException {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
-
+  /** */
+  private static final long serialVersionUID = 1L;
 }

@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.rule.flow.manager.annotattions;
 
 import java.lang.annotation.Documented;
@@ -18,8 +16,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Fact {
 
-	String name();
+  String name();
 
-	String description() default "";
-
+  String description() default "";
 }

@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.multitenant.datasource.properties;
 
 import org.springframework.stereotype.Component;
@@ -17,30 +15,29 @@ import lombok.Setter;
 @Component
 public class DataSourceProperties {
 
-	private String id;
+  private String id;
 
-	private String url;
+  private String url;
 
-	private String username;
+  private String username;
 
-	private String password;
+  private String password;
 
-	private String platform;
+  private String platform;
 
-	private String driverClassName;
+  private String driverClassName;
 
-	private boolean showSql = false;
+  private boolean showSql = false;
 
-	private boolean formatSql = false;
+  private boolean formatSql = false;
 
-	private String hbm2dllAuto = "none";
+  private String hbm2dllAuto = "none";
 
-	private boolean primary = false;
+  private boolean primary = false;
 
-	private String auditPrefix = "";
+  private String auditPrefix = "";
 
-	private String auditSuffix = "_AUD";
+  private String auditSuffix = "_AUD";
 
-	private String validationQuery = "";
-
+  private String validationQuery = "";
 }

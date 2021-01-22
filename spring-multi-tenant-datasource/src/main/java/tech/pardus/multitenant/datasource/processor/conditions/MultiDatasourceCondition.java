@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.multitenant.datasource.processor.conditions;
 
 import org.springframework.context.annotation.Condition;
@@ -19,18 +17,17 @@ import tech.pardus.multitenant.datasource.processor.DatasourceType;
 @Slf4j
 public class MultiDatasourceCondition implements Condition {
 
-	@Override
-	public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-		try {
-			return DatasourceType.MULTIPLE == DataSourceConditionConfigurer.dataSourceType();
-		} catch (ClassNotFoundException e) {
-			log.error("Multi Datasource Condition", e);
-		} catch (DatasourceAnnotationException e) {
-			log.error("Multi Datasource Condition", e);
-		} catch (Exception e) {
-			log.error("Multi Datasource Condition", e);
-		}
-		return false;
-	}
-
+  @Override
+  public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+    try {
+      return DatasourceType.MULTIPLE == DataSourceConditionConfigurer.dataSourceType();
+    } catch (ClassNotFoundException e) {
+      log.error("Multi Datasource Condition", e);
+    } catch (DatasourceAnnotationException e) {
+      log.error("Multi Datasource Condition", e);
+    } catch (Exception e) {
+      log.error("Multi Datasource Condition", e);
+    }
+    return false;
+  }
 }

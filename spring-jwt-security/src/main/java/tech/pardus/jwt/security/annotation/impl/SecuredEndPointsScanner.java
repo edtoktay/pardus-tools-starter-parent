@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.jwt.security.annotation.impl;
 
 import java.lang.reflect.Method;
@@ -30,98 +28,102 @@ import tech.pardus.jwt.security.annotation.SecuredEndPoint;
 @Configuration
 public class SecuredEndPointsScanner implements ApplicationContextAware {
 
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		for (String beanName : applicationContext.getBeanDefinitionNames()) {
-			Object obj = applicationContext.getBean(beanName);
-			Class<?> clazz = obj.getClass();
-			if (AopUtils.isAopProxy(obj)) {
-				clazz = AopUtils.getTargetClass(obj);
-			}
-			if (clazz.isAnnotationPresent(RestController.class)) {
-				handleClass(clazz);
-			}
-		}
-	}
+  @Override
+  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    for (String beanName : applicationContext.getBeanDefinitionNames()) {
+      Object obj = applicationContext.getBean(beanName);
+      Class<?> clazz = obj.getClass();
+      if (AopUtils.isAopProxy(obj)) {
+        clazz = AopUtils.getTargetClass(obj);
+      }
+      if (clazz.isAnnotationPresent(RestController.class)) {
+        handleClass(clazz);
+      }
+    }
+  }
 
-	private void handleClass(Class<?> targetClass) {
-		var registry = ModuleUrlSecurityRegistry.registry();
-		var classMapping = targetClass.getAnnotation(RequestMapping.class) == null ? ""
-		        : targetClass.getAnnotation(RequestMapping.class).value() == null ? ""
-		                : targetClass.getAnnotation(RequestMapping.class).value().length > 0
-		                        ? targetClass.getAnnotation(RequestMapping.class).value()[0]
-		                        : targetClass.getAnnotation(RequestMapping.class).path().length > 0
-		                                ? targetClass.getAnnotation(RequestMapping.class).path()[0]
-		                                : "";
-		for (var method : targetClass.getMethods()) {
-			var methodMapping = handleMethodPath(method, classMapping);
-			if (methodMapping != null) {
-				var presentedSecurityAnnotation = method.getAnnotation(SecuredEndPoint.class);
-				if (presentedSecurityAnnotation != null) {
-					registry.registerNewUrl(methodMapping.getRight(), methodMapping.getLeft(),
-					        presentedSecurityAnnotation.accessKey(),
-					        ArrayUtils.isNotEmpty(presentedSecurityAnnotation.roles())
-					                ? Arrays.asList(presentedSecurityAnnotation.roles())
-					                : null,
-					        true);
-				} else {
-					registry.registerNewUrl(methodMapping.getRight(), methodMapping.getLeft(), null, null, false);
-				}
-			}
-		}
-	}
+  private void handleClass(Class<?> targetClass) {
+    var registry = ModuleUrlSecurityRegistry.registry();
+    var classMapping =
+        targetClass.getAnnotation(RequestMapping.class) == null
+            ? ""
+            : targetClass.getAnnotation(RequestMapping.class).value() == null
+                ? ""
+                : targetClass.getAnnotation(RequestMapping.class).value().length > 0
+                    ? targetClass.getAnnotation(RequestMapping.class).value()[0]
+                    : targetClass.getAnnotation(RequestMapping.class).path().length > 0
+                        ? targetClass.getAnnotation(RequestMapping.class).path()[0]
+                        : "";
+    for (var method : targetClass.getMethods()) {
+      var methodMapping = handleMethodPath(method, classMapping);
+      if (methodMapping != null) {
+        var presentedSecurityAnnotation = method.getAnnotation(SecuredEndPoint.class);
+        if (presentedSecurityAnnotation != null) {
+          registry.registerNewUrl(
+              methodMapping.getRight(),
+              methodMapping.getLeft(),
+              presentedSecurityAnnotation.accessKey(),
+              ArrayUtils.isNotEmpty(presentedSecurityAnnotation.roles())
+                  ? Arrays.asList(presentedSecurityAnnotation.roles())
+                  : null,
+              true);
+        } else {
+          registry.registerNewUrl(
+              methodMapping.getRight(), methodMapping.getLeft(), null, null, false);
+        }
+      }
+    }
+  }
 
-	private Pair<String, RequestMethod> handleMethodPath(Method method, String classMapping) {
-		// @formatter:off
-		try {
-			for (var annot : method.getAnnotations()) {
-				if (annot.annotationType().isAssignableFrom(RequestMapping.class)) {
-					var methodUrl = ((RequestMapping) annot).value().length > 0 ?
-											((RequestMapping) annot).value()[0]
-													: ((RequestMapping) annot).path().length > 0 ?
-																((RequestMapping) annot).path()[0]
-																		: "";
-					var methodType = ((RequestMapping) annot).method()[0];
-					return Pair.of(classMapping + methodUrl, methodType);
-				} else if (annot.annotationType().isAssignableFrom(PostMapping.class)) {
-					var methodUrl = ((PostMapping) annot).value().length > 0 ?
-											((PostMapping) annot).value()[0]
-													: ((PostMapping) annot).path().length > 0 ?
-															((PostMapping) annot).path()[0]
-																	: "";
-					var methodType = RequestMethod.POST;
-					return Pair.of(classMapping + methodUrl, methodType);
-				} else if (annot.annotationType().isAssignableFrom(PutMapping.class)) {
-					var methodUrl = ((PutMapping) annot).value().length > 0 ?
-											((PutMapping) annot).value()[0]
-													: ((PutMapping) annot).path().length > 0 ?
-															((PutMapping) annot).path()[0]
-																	: "";
-					var methodType = RequestMethod.POST;
-					return Pair.of(classMapping + methodUrl, methodType);
-				} else if (annot.annotationType().isAssignableFrom(DeleteMapping.class)) {
-					var methodUrl = ((DeleteMapping) annot).value().length > 0 ?
-											((DeleteMapping) annot).value()[0]
-													: ((DeleteMapping) annot).path().length > 0 ?
-															((DeleteMapping) annot).path()[0]
-																	: "";
-					var methodType = RequestMethod.DELETE;
-					return Pair.of(classMapping + methodUrl, methodType);
-				} else if (annot.annotationType().isAssignableFrom(GetMapping.class)) {
-					var methodUrl = ((GetMapping) annot).value().length > 0 ?
-											((GetMapping) annot).value()[0]
-													: ((GetMapping) annot).path().length > 0 ?
-															((GetMapping) annot).path()[0]
-																	: "";
-					var methodType = RequestMethod.GET;
-					return Pair.of(classMapping + methodUrl, methodType);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		// @formatter:on
-		return null;
-	}
-
+  private Pair<String, RequestMethod> handleMethodPath(Method method, String classMapping) {
+    // @formatter:off
+    try {
+      for (var annot : method.getAnnotations()) {
+        if (annot.annotationType().isAssignableFrom(RequestMapping.class)) {
+          var methodUrl =
+              ((RequestMapping) annot).value().length > 0
+                  ? ((RequestMapping) annot).value()[0]
+                  : ((RequestMapping) annot).path().length > 0
+                      ? ((RequestMapping) annot).path()[0]
+                      : "";
+          var methodType = ((RequestMapping) annot).method()[0];
+          return Pair.of(classMapping + methodUrl, methodType);
+        } else if (annot.annotationType().isAssignableFrom(PostMapping.class)) {
+          var methodUrl =
+              ((PostMapping) annot).value().length > 0
+                  ? ((PostMapping) annot).value()[0]
+                  : ((PostMapping) annot).path().length > 0 ? ((PostMapping) annot).path()[0] : "";
+          var methodType = RequestMethod.POST;
+          return Pair.of(classMapping + methodUrl, methodType);
+        } else if (annot.annotationType().isAssignableFrom(PutMapping.class)) {
+          var methodUrl =
+              ((PutMapping) annot).value().length > 0
+                  ? ((PutMapping) annot).value()[0]
+                  : ((PutMapping) annot).path().length > 0 ? ((PutMapping) annot).path()[0] : "";
+          var methodType = RequestMethod.POST;
+          return Pair.of(classMapping + methodUrl, methodType);
+        } else if (annot.annotationType().isAssignableFrom(DeleteMapping.class)) {
+          var methodUrl =
+              ((DeleteMapping) annot).value().length > 0
+                  ? ((DeleteMapping) annot).value()[0]
+                  : ((DeleteMapping) annot).path().length > 0
+                      ? ((DeleteMapping) annot).path()[0]
+                      : "";
+          var methodType = RequestMethod.DELETE;
+          return Pair.of(classMapping + methodUrl, methodType);
+        } else if (annot.annotationType().isAssignableFrom(GetMapping.class)) {
+          var methodUrl =
+              ((GetMapping) annot).value().length > 0
+                  ? ((GetMapping) annot).value()[0]
+                  : ((GetMapping) annot).path().length > 0 ? ((GetMapping) annot).path()[0] : "";
+          var methodType = RequestMethod.GET;
+          return Pair.of(classMapping + methodUrl, methodType);
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    // @formatter:on
+    return null;
+  }
 }

@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.utilities;
 
 /**
@@ -13,11 +11,10 @@ package tech.pardus.utilities;
 @FunctionalInterface
 public interface CheckedFunction<T, R, E extends Exception> {
 
-	/**
-	 * @param t
-	 * @return <R>
-	 * @throws E
-	 */
-	R apply(T t) throws E;
-
+  /**
+   * @param t
+   * @return <R>
+   * @throws E
+   */
+  R apply(T t) throws E;
 }

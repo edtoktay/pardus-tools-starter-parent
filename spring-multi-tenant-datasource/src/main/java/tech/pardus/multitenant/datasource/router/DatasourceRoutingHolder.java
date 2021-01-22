@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.multitenant.datasource.router;
 
 /**
@@ -9,18 +7,17 @@ package tech.pardus.multitenant.datasource.router;
  */
 public class DatasourceRoutingHolder {
 
-	private static InheritableThreadLocal<String> dbContext = new InheritableThreadLocal<>();
+  private static InheritableThreadLocal<String> dbContext = new InheritableThreadLocal<>();
 
-	public static void setCurrentDb(String dbType) {
-		dbContext.set(dbType);
-	}
+  public static void setCurrentDb(String dbType) {
+    dbContext.set(dbType);
+  }
 
-	public static String getCurrentDb() {
-		return dbContext.get();
-	}
+  public static String getCurrentDb() {
+    return dbContext.get();
+  }
 
-	public static void clear() {
-		dbContext.remove();
-	}
-
+  public static void clear() {
+    dbContext.remove();
+  }
 }

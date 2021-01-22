@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.rule.flow.manager.actions;
 
 import java.io.Serializable;
@@ -12,6 +10,5 @@ import java.io.Serializable;
 @FunctionalInterface
 public interface ActionDispatcher extends Serializable {
 
-	void fire(String... args);
-
+  void fire(String... args);
 }

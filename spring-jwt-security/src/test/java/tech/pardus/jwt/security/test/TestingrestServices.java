@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.jwt.security.test;
 
 import java.util.stream.Stream;
@@ -23,37 +21,38 @@ import tech.pardus.jwt.security.annotation.SecuredEndPoint;
 @RequestMapping("/test")
 public class TestingrestServices {
 
-	@GetMapping(path = "/test-auth-only/{value}")
-	@SecuredEndPoint
-	public String testAuthedOnly(@PathVariable("value") String[] val) {
-		var sb = new StringBuilder();
-		Stream.of(val).forEach(sb::append);
-		sb.append("-OK");
-		return sb.toString();
-	}
+  @GetMapping(path = "/test-auth-only/{value}")
+  @SecuredEndPoint
+  public String testAuthedOnly(@PathVariable("value") String[] val) {
+    var sb = new StringBuilder();
+    Stream.of(val).forEach(sb::append);
+    sb.append("-OK");
+    return sb.toString();
+  }
 
-	@PostMapping(path = "/test-single-role")
-	@SecuredEndPoint(roles = { "AGENT" })
-	public String testSingleRole(@RequestParam("value") String val) {
-		return val + "-OK";
-	}
+  @PostMapping(path = "/test-single-role")
+  @SecuredEndPoint(roles = {"AGENT"})
+  public String testSingleRole(@RequestParam("value") String val) {
+    return val + "-OK";
+  }
 
-	@PostMapping(path = "/test-double-role")
-	@SecuredEndPoint(roles = { "AGENT", "USER" })
-	public String testDoubleRole(@RequestParam("value") String val) {
-		return val + "-OK";
-	}
+  @PostMapping(path = "/test-double-role")
+  @SecuredEndPoint(roles = {"AGENT", "USER"})
+  public String testDoubleRole(@RequestParam("value") String val) {
+    return val + "-OK";
+  }
 
-	@PostMapping(path = "/test-access-key")
-	@SecuredEndPoint(accessKey = "test_key_1")
-	public String testAccesKey(@RequestBody TestObj val) {
-		return val.getVal() + "-OK";
-	}
+  @PostMapping(path = "/test-access-key")
+  @SecuredEndPoint(accessKey = "test_key_1")
+  public String testAccesKey(@RequestBody TestObj val) {
+    return val.getVal() + "-OK";
+  }
 
-	@PostMapping(path = "/test-access-or-role")
-	@SecuredEndPoint(accessKey = "test_key_2", roles = { "USER" })
-	public String testAccesKeyOrRole(@RequestBody TestObj val) {
-		return val.getVal() + "-OK";
-	}
-
+  @PostMapping(path = "/test-access-or-role")
+  @SecuredEndPoint(
+      accessKey = "test_key_2",
+      roles = {"USER"})
+  public String testAccesKeyOrRole(@RequestBody TestObj val) {
+    return val.getVal() + "-OK";
+  }
 }

@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.jwt.security.operations;
 
 import java.time.LocalDateTime;
@@ -35,66 +33,67 @@ import tech.pardus.utilities.PAsserts;
 @ConditionalOnBean(value = JwtIssuerProperties.class)
 public class TokenCreator {
 
-	@Autowired
-	private JwtIssuerProperties jwtIssuerProperties;
+  @Autowired private JwtIssuerProperties jwtIssuerProperties;
 
-	public JwtToken createToken(UserDetails context) {
-		// @formatter:off
-		PAsserts.hasText(context.getUsername(),
-				() -> "issue_jwt_without_username",
-				() -> TokenCreationException.class);
-		PAsserts.notNull(context.getAuthorities(),
-				() -> "issue_jwt_without_authorities",
-		        () -> TokenCreationException.class);
-		var claims = Jwts.claims().setSubject(context.getUsername());
-		claims.put("roles",
-		        context
-		        .getAuthorities()
-		        	.stream()
-		        		.map(GrantedAuthority::toString)
-	        		.collect(Collectors.toList()));
-		var now = LocalDateTime.now();
-		var issueStartDate = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
-		var expiryDate = now.plus(jwtIssuerProperties.getExpirationTime(), jwtIssuerProperties.getExpiryTimeUnit());
-		var issueExpiryDate = Date.from(expiryDate.atZone(ZoneId.systemDefault()).toInstant());
-		var token = Jwts
-				.builder()
-					.setClaims(claims)
-					.setIssuer(jwtIssuerProperties.getIssuingAuthority())
-					.setIssuedAt(issueStartDate)
-					.setExpiration(issueExpiryDate)
-					.signWith(SignatureAlgorithm.HS512, jwtIssuerProperties.getSignKey())
-				.compact();
-		return JwtToken
-					.builder()
-						.token(token)
-						.header(jwtIssuerProperties.getHeader())
-						.headerPrefix(jwtIssuerProperties.getHeaderPrefix())
-						.expireTime(expiryDate)
-					.build();
-		// @formatter:on
-	}
+  public JwtToken createToken(UserDetails context) {
+    // @formatter:off
+    PAsserts.hasText(
+        context.getUsername(),
+        () -> "issue_jwt_without_username",
+        () -> TokenCreationException.class);
+    PAsserts.notNull(
+        context.getAuthorities(),
+        () -> "issue_jwt_without_authorities",
+        () -> TokenCreationException.class);
+    var claims = Jwts.claims().setSubject(context.getUsername());
+    claims.put(
+        "roles",
+        context
+            .getAuthorities()
+            .stream()
+            .map(GrantedAuthority::toString)
+            .collect(Collectors.toList()));
+    var now = LocalDateTime.now();
+    var issueStartDate = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
+    var expiryDate =
+        now.plus(jwtIssuerProperties.getExpirationTime(), jwtIssuerProperties.getExpiryTimeUnit());
+    var issueExpiryDate = Date.from(expiryDate.atZone(ZoneId.systemDefault()).toInstant());
+    var token =
+        Jwts.builder()
+            .setClaims(claims)
+            .setIssuer(jwtIssuerProperties.getIssuingAuthority())
+            .setIssuedAt(issueStartDate)
+            .setExpiration(issueExpiryDate)
+            .signWith(SignatureAlgorithm.HS512, jwtIssuerProperties.getSignKey())
+            .compact();
+    return JwtToken.builder()
+        .token(token)
+        .header(jwtIssuerProperties.getHeader())
+        .headerPrefix(jwtIssuerProperties.getHeaderPrefix())
+        .expireTime(expiryDate)
+        .build();
+    // @formatter:on
+  }
 
-	public JwtToken createToken(Authentication authentication) {
-		var user = new User(authentication.getPrincipal().toString(), "", authentication.getAuthorities());
-		return createToken(user);
-	}
+  public JwtToken createToken(Authentication authentication) {
+    var user =
+        new User(authentication.getPrincipal().toString(), "", authentication.getAuthorities());
+    return createToken(user);
+  }
 
-	@Getter
-	@Setter
-	@Builder
-	@AllArgsConstructor
-	@NoArgsConstructor
-	public static class JwtToken {
+  @Getter
+  @Setter
+  @Builder
+  @AllArgsConstructor
+  @NoArgsConstructor
+  public static class JwtToken {
 
-		private String token;
+    private String token;
 
-		private LocalDateTime expireTime;
+    private LocalDateTime expireTime;
 
-		private String header;
+    private String header;
 
-		private String headerPrefix;
-
-	}
-
+    private String headerPrefix;
+  }
 }

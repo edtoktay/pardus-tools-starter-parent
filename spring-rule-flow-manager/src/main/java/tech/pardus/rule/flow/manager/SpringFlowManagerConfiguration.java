@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.rule.flow.manager;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +16,16 @@ import tech.pardus.rule.flow.manager.operations.Operations;
  */
 @Configuration
 @AutoConfigurationPackage
-@ComponentScan(basePackages = { "tech.pardus.rule.flow.manager", "tech.pardus.rule.flow.manager.actions" })
+@ComponentScan(
+    basePackages = {"tech.pardus.rule.flow.manager", "tech.pardus.rule.flow.manager.actions"})
 public class SpringFlowManagerConfiguration {
 
-	@Autowired
-	private ActionDispatcherManager dispatcherManager;
+  @Autowired private ActionDispatcherManager dispatcherManager;
 
-	@Bean
-	public String managerInit() {
-		Operations.INSTANCE.registerAllOperations();
-		dispatcherManager.init();
-		return "OK";
-	}
-
+  @Bean
+  public String managerInit() {
+    Operations.INSTANCE.registerAllOperations();
+    dispatcherManager.init();
+    return "OK";
+  }
 }

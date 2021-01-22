@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.jwt.security.configuration;
 
 import java.util.Arrays;
@@ -33,62 +31,59 @@ import tech.pardus.jwt.security.properties.JwtIssuerProperties;
 // @formatter:off
 @Component
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-		prePostEnabled = true,
-		jsr250Enabled = true,
-		securedEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true, securedEnabled = true)
 @ConditionalOnBean(value = JwtIssuerProperties.class)
-//@ConditionalOnProperty(prefix = "security.jwt.token", name = "issuer", havingValue = "true", matchIfMissing = false)
+// @ConditionalOnProperty(prefix = "security.jwt.token", name = "issuer", havingValue = "true",
+// matchIfMissing = false)
 // @formatter:on
 public class IssuerSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private AuthenticationProvider authenticationProvider;
+  @Autowired private AuthenticationProvider authenticationProvider;
 
-	@Autowired
-	private JwtIssuerProperties jwtIssuerProperties;
+  @Autowired private JwtIssuerProperties jwtIssuerProperties;
 
-	@Override
-	@Bean
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return new ProviderManager(Arrays.asList(authenticationProvider));
-	}
+  @Override
+  @Bean
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return new ProviderManager(Arrays.asList(authenticationProvider));
+  }
 
-	@Bean
-	public AccessDecisionManager accessDecisionManager() {
-		List<AccessDecisionVoter<? extends Object>> voters = Arrays.asList(new JwtAccessDecisionVoter());
-		return new UnanimousBased(voters);
-	}
+  @Bean
+  public AccessDecisionManager accessDecisionManager() {
+    List<AccessDecisionVoter<? extends Object>> voters =
+        Arrays.asList(new JwtAccessDecisionVoter());
+    return new UnanimousBased(voters);
+  }
 
-	@Override
-	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		// @formatter:off
-		httpSecurity
-		.csrf()
-			.disable()
-		.exceptionHandling()
-		.and()
-		.sessionManagement()
-			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and()
-		.authorizeRequests()
-			.antMatchers(jwtIssuerProperties.getLoginUrl())
-				.permitAll()
-		.anyRequest()
-			.authenticated()
-			.accessDecisionManager(accessDecisionManager());
-		httpSecurity
-			.authenticationProvider(authenticationProvider)
-			.addFilterAfter(new AuthorizationRequestFilter(), UsernamePasswordAuthenticationFilter.class);
-		// @formatter:on
-	}
+  @Override
+  protected void configure(HttpSecurity httpSecurity) throws Exception {
+    // @formatter:off
+    httpSecurity
+        .csrf()
+        .disable()
+        .exceptionHandling()
+        .and()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .authorizeRequests()
+        .antMatchers(jwtIssuerProperties.getLoginUrl())
+        .permitAll()
+        .anyRequest()
+        .authenticated()
+        .accessDecisionManager(accessDecisionManager());
+    httpSecurity
+        .authenticationProvider(authenticationProvider)
+        .addFilterAfter(
+            new AuthorizationRequestFilter(), UsernamePasswordAuthenticationFilter.class);
+    // @formatter:on
+  }
 
-	@Bean
-	public FilterRegistrationBean<XSSFilter> xssPreventFilter() {
-		var registrationBean = new FilterRegistrationBean<XSSFilter>();
-		registrationBean.setFilter(new XSSFilter());
-		registrationBean.addUrlPatterns("/*");
-		return registrationBean;
-	}
-
+  @Bean
+  public FilterRegistrationBean<XSSFilter> xssPreventFilter() {
+    var registrationBean = new FilterRegistrationBean<XSSFilter>();
+    registrationBean.setFilter(new XSSFilter());
+    registrationBean.addUrlPatterns("/*");
+    return registrationBean;
+  }
 }

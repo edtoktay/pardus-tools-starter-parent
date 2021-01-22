@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.rule.flow.manager.actions;
 
 import java.io.Serializable;
@@ -33,114 +31,119 @@ import tech.pardus.utilities.ReflectionUtils;
 @Service
 public class ActionDispatcherManager {
 
-	private HashMap<String, ActionBeanDefn> beanList;
+  private HashMap<String, ActionBeanDefn> beanList;
 
-	@Autowired
-	private List<ActionDispatcher> dispatchers;
+  @Autowired private List<ActionDispatcher> dispatchers;
 
-	@Value("${search-native-dispatchers:false}")
-	private boolean searchForNativeJavaDispatcher;
+  @Value("${search-native-dispatchers:false}")
+  private boolean searchForNativeJavaDispatcher;
 
-	public void init() {
-		if (MapUtils.isEmpty(beanList)) {
-			beanList = new HashMap<>();
-			initiate();
-		}
-	}
+  public void init() {
+    if (MapUtils.isEmpty(beanList)) {
+      beanList = new HashMap<>();
+      initiate();
+    }
+  }
 
-	private void initiate() {
-		processBean(FlowManagerSpringContext.getActionBean(NullActionDispatcher.class));
-		if (CollectionUtils.isNotEmpty(dispatchers)) {
-			dispatchers.stream().forEach(this::processBean);
-		}
-		if (searchForNativeJavaDispatcher) {
-			Set<Class<? extends ActionDispatcher>> dispatcherSet = ReflectionUtils
-			        .listOfExtendedClasses(ActionDispatcher.class);
-			dispatcherSet.stream().filter(t -> !isBeanRegistered(t))
-			        .map(LambdaWrapper.functionChecker(t -> (ActionDispatcher) ReflectionUtils.initClass(t)))
-			        .forEach(this::processBean);
-		}
-	}
+  private void initiate() {
+    processBean(FlowManagerSpringContext.getActionBean(NullActionDispatcher.class));
+    if (CollectionUtils.isNotEmpty(dispatchers)) {
+      dispatchers.stream().forEach(this::processBean);
+    }
+    if (searchForNativeJavaDispatcher) {
+      Set<Class<? extends ActionDispatcher>> dispatcherSet =
+          ReflectionUtils.listOfExtendedClasses(ActionDispatcher.class);
+      dispatcherSet
+          .stream()
+          .filter(t -> !isBeanRegistered(t))
+          .map(LambdaWrapper.functionChecker(t -> (ActionDispatcher) ReflectionUtils.initClass(t)))
+          .forEach(this::processBean);
+    }
+  }
 
-	private <T extends ActionDispatcher> void processBean(T dispatcher) {
-		var annotationProcessor = new AnnotationProcessor(dispatcher.getClass());
-		var beandef = new ActionBeanDefn(annotationProcessor.isSpringAnnotationExists(), annotationProcessor.getName(),
-		        dispatcher.getClass());
-		beanList.put(annotationProcessor.getName(), beandef);
-	}
+  private <T extends ActionDispatcher> void processBean(T dispatcher) {
+    var annotationProcessor = new AnnotationProcessor(dispatcher.getClass());
+    var beandef =
+        new ActionBeanDefn(
+            annotationProcessor.isSpringAnnotationExists(),
+            annotationProcessor.getName(),
+            dispatcher.getClass());
+    beanList.put(annotationProcessor.getName(), beandef);
+  }
 
-	private boolean isBeanRegistered(Class<? extends ActionDispatcher> clazz) {
-		return beanList.entrySet().stream().map(Entry::getValue).filter(t -> clazz.isAssignableFrom(t.getClazz()))
-		        .findFirst().map(t -> Boolean.TRUE).orElse(Boolean.FALSE);
-	}
-	
-	public List<String> listOfActionDispatcherNames() {
-		return List.copyOf(beanList.keySet());
-	}
+  private boolean isBeanRegistered(Class<? extends ActionDispatcher> clazz) {
+    return beanList
+        .entrySet()
+        .stream()
+        .map(Entry::getValue)
+        .filter(t -> clazz.isAssignableFrom(t.getClazz()))
+        .findFirst()
+        .map(t -> Boolean.TRUE)
+        .orElse(Boolean.FALSE);
+  }
 
-	public void runDispatcher(String name, String... args) throws Exception {
-		var beanDef = beanList.get(name);
-		if (Objects.isNull(beanDef)) {
-			beanDef = beanList.get("Default");
-		}
-		if (beanDef.isSpringBean()) {
-			var bean = FlowManagerSpringContext.getActionBean(beanDef.getClazz());
-			bean.fire(args);
-		} else {
-			var bean = (ActionDispatcher) ReflectionUtils.initClass(beanDef.getClazz());
-			bean.fire(args);
-		}
-	}
+  public List<String> listOfActionDispatcherNames() {
+    return List.copyOf(beanList.keySet());
+  }
 
-	/**
-	 * @author deniz.toktay
-	 * @since Sep 26, 2020
-	 */
-	@Getter
-	@Setter
-	@AllArgsConstructor
-	@NoArgsConstructor
-	public class ActionBeanDefn implements Serializable {
+  public void runDispatcher(String name, String... args) throws Exception {
+    var beanDef = beanList.get(name);
+    if (Objects.isNull(beanDef)) {
+      beanDef = beanList.get("Default");
+    }
+    if (beanDef.isSpringBean()) {
+      var bean = FlowManagerSpringContext.getActionBean(beanDef.getClazz());
+      bean.fire(args);
+    } else {
+      var bean = (ActionDispatcher) ReflectionUtils.initClass(beanDef.getClazz());
+      bean.fire(args);
+    }
+  }
 
-		/**
-		*
-		*/
-		private static final long serialVersionUID = 1L;
+  /**
+   * @author deniz.toktay
+   * @since Sep 26, 2020
+   */
+  @Getter
+  @Setter
+  @AllArgsConstructor
+  @NoArgsConstructor
+  public class ActionBeanDefn implements Serializable {
 
-		private boolean springBean;
+    /** */
+    private static final long serialVersionUID = 1L;
 
-		private String name;
+    private boolean springBean;
 
-		private Class<? extends ActionDispatcher> clazz;
+    private String name;
 
-	}
+    private Class<? extends ActionDispatcher> clazz;
+  }
 
-	/**
-	 * @author deniz.toktay
-	 * @since Sep 26, 2020
-	 */
-	@Getter
-	@Setter
-	class AnnotationProcessor {
+  /**
+   * @author deniz.toktay
+   * @since Sep 26, 2020
+   */
+  @Getter
+  @Setter
+  class AnnotationProcessor {
 
-		private String name;
+    private String name;
 
-		private boolean springAnnotationExists;
+    private boolean springAnnotationExists;
 
-		public AnnotationProcessor(Class<? extends ActionDispatcher> clazz) {
-			this.name = clazz.getSimpleName();
-			this.springAnnotationExists = false;
-			for (var annot : clazz.getAnnotations()) {
-				if (StringUtils.equals(annot.annotationType().getSimpleName(), "DispatcherBean")) {
-					var beanAnnotation = clazz.getAnnotation(DispatcherBean.class);
-					this.name = beanAnnotation.name();
-				} else if (StringUtils.equals(annot.annotationType().getSimpleName(), "Component")
-				        || StringUtils.equals(annot.annotationType().getSimpleName(), "Service")) {
-					this.springAnnotationExists = true;
-				}
-			}
-		}
-
-	}
-
+    public AnnotationProcessor(Class<? extends ActionDispatcher> clazz) {
+      this.name = clazz.getSimpleName();
+      this.springAnnotationExists = false;
+      for (var annot : clazz.getAnnotations()) {
+        if (StringUtils.equals(annot.annotationType().getSimpleName(), "DispatcherBean")) {
+          var beanAnnotation = clazz.getAnnotation(DispatcherBean.class);
+          this.name = beanAnnotation.name();
+        } else if (StringUtils.equals(annot.annotationType().getSimpleName(), "Component")
+            || StringUtils.equals(annot.annotationType().getSimpleName(), "Service")) {
+          this.springAnnotationExists = true;
+        }
+      }
+    }
+  }
 }

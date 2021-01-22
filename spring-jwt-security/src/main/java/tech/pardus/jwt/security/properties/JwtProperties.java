@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.jwt.security.properties;
 
 /**
@@ -9,12 +7,11 @@ package tech.pardus.jwt.security.properties;
  */
 public interface JwtProperties {
 
-	boolean isIssuer();
+  boolean isIssuer();
 
-	String getSignKey();
+  String getSignKey();
 
-	String getHeader();
+  String getHeader();
 
-	String getHeaderPrefix();
-
+  String getHeaderPrefix();
 }

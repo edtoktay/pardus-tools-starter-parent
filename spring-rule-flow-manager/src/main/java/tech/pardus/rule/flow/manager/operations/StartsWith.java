@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.rule.flow.manager.operations;
 
 import static tech.pardus.rule.flow.manager.RuleStringOperations.stripeStringFromAphs;
@@ -16,32 +14,30 @@ import tech.pardus.rule.flow.manager.expressions.Variable;
  */
 public class StartsWith extends AbstractOperation {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1497685851023414117L;
+  /** */
+  private static final long serialVersionUID = 1497685851023414117L;
 
-	public StartsWith() {
-		super("STARTWITH");
-	}
+  public StartsWith() {
+    super("STARTWITH");
+  }
 
-	@Override
-	public boolean interpret(Map<String, ?> bindings) {
-		var v = (Variable) this.leftOperand;
-		var obj = bindings.get(v.getName());
-		if (obj == null) {
-			return false;
-		}
-		BaseType<?> type = (BaseType<?>) this.rightOperand;
-		if (type.getType().equals(obj.getClass()) && String.class.isAssignableFrom(type.getType())) {
-			return stripeStringFromAphs((String) obj).startsWith(stripeStringFromAphs((String) type.value));
-		}
-		return false;
-	}
+  @Override
+  public boolean interpret(Map<String, ?> bindings) {
+    var v = (Variable) this.leftOperand;
+    var obj = bindings.get(v.getName());
+    if (obj == null) {
+      return false;
+    }
+    BaseType<?> type = (BaseType<?>) this.rightOperand;
+    if (type.getType().equals(obj.getClass()) && String.class.isAssignableFrom(type.getType())) {
+      return stripeStringFromAphs((String) obj)
+          .startsWith(stripeStringFromAphs((String) type.value));
+    }
+    return false;
+  }
 
-	@Override
-	public Operation copy() {
-		return new StartsWith();
-	}
-
+  @Override
+  public Operation copy() {
+    return new StartsWith();
+  }
 }

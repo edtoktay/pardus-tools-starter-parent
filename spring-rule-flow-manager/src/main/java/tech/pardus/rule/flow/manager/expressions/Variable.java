@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.rule.flow.manager.expressions;
 
 import java.util.Map;
@@ -11,29 +9,26 @@ import java.util.Map;
  */
 public class Variable implements Expression {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -8875892131840710621L;
+  /** */
+  private static final long serialVersionUID = -8875892131840710621L;
 
-	private String name;
+  private String name;
 
-	public Variable(String name) {
-		super();
-		this.name = name;
-	}
+  public Variable(String name) {
+    super();
+    this.name = name;
+  }
 
-	@Override
-	public boolean interpret(Map<String, ?> bindings) {
-		return true;
-	}
+  @Override
+  public boolean interpret(Map<String, ?> bindings) {
+    return true;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
+  public void setName(String name) {
+    this.name = name;
+  }
 }

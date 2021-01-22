@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.multitenant.datasource;
 
 import java.lang.annotation.Documented;
@@ -18,10 +16,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface EnableMultiTenancy {
 
-	boolean enable() default false;
+  boolean enable() default false;
 
-	DataSource[] datasources() default {};
+  DataSource[] datasources() default {};
 
-	String[] entityPackages() default {};
-
+  String[] entityPackages() default {};
 }

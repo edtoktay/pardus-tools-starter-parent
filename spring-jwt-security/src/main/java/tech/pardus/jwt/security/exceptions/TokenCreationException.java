@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.jwt.security.exceptions;
 
 import org.springframework.security.core.AuthenticationException;
@@ -11,13 +9,10 @@ import org.springframework.security.core.AuthenticationException;
  */
 public class TokenCreationException extends AuthenticationException {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+  /** */
+  private static final long serialVersionUID = 1L;
 
-	public TokenCreationException(String msg) {
-		super(msg);
-	}
-
+  public TokenCreationException(String msg) {
+    super(msg);
+  }
 }

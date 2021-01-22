@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.multitenant.datasource;
 
 import java.lang.annotation.Documented;
@@ -18,6 +16,5 @@ import java.lang.annotation.Target;
 @Documented
 public @interface DataSource {
 
-	String id();
-
+  String id();
 }

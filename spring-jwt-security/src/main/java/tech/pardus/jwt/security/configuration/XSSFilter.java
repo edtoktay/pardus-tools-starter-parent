@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.jwt.security.configuration;
 
 import java.io.IOException;
@@ -24,18 +22,15 @@ import org.springframework.stereotype.Component;
 @Order(1)
 public class XSSFilter implements Filter {
 
-	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
-	}
+  @Override
+  public void init(FilterConfig filterConfig) throws ServletException {}
 
-	@Override
-	public void destroy() {
-	}
+  @Override
+  public void destroy() {}
 
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-	        throws IOException, ServletException {
-		chain.doFilter(new XSSRequestWrapper((HttpServletRequest) request), response);
-	}
-
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
+    chain.doFilter(new XSSRequestWrapper((HttpServletRequest) request), response);
+  }
 }

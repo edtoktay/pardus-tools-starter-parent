@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package tech.pardus.multitenant.datasource.properties;
 
 import java.util.ArrayList;
@@ -22,17 +20,17 @@ import tech.pardus.utilities.PAsserts;
 @ConfigurationProperties(prefix = "multi-datasource")
 public class MultiDataSourceProperties {
 
-	@Getter
-	@Setter
-	private List<DataSourceProperties> datasources = new ArrayList<>();
+  @Getter @Setter private List<DataSourceProperties> datasources = new ArrayList<>();
 
-	@Getter
-	@Setter
-	private String basePackage;
+  @Getter @Setter private String basePackage;
 
-	public DataSourceProperties getPrimaryDataSource() throws Exception {
-		PAsserts.notEmpty(datasources, () -> "No datasource presented", () -> DatasourceDefinitionException.class);
-		return getDatasources().stream().filter(t -> t.isPrimary()).findFirst().orElse(getDatasources().get(0));
-	}
-
+  public DataSourceProperties getPrimaryDataSource() throws Exception {
+    PAsserts.notEmpty(
+        datasources, () -> "No datasource presented", () -> DatasourceDefinitionException.class);
+    return getDatasources()
+        .stream()
+        .filter(t -> t.isPrimary())
+        .findFirst()
+        .orElse(getDatasources().get(0));
+  }
 }
