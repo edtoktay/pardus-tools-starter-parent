@@ -1,29 +1,36 @@
-# README #
+# Starter Tools Parent
+Parent project for the various tools
 
-This README would normally document whatever steps are necessary to get your application up and running.
+## Requirements
+*	JDK 11 or higher
+*	Maven 3.6 or higher (build only)
 
-### What is this repository for? ###
+## Modules
+*	[Java Utilities](https://github.com/edtoktay/pardus-tools-starter-parent/blob/main/java-utilities)
+*	[Multi-Tenant DataSource](https://github.com/edtoktay/pardus-tools-starter-parent/tree/main/spring-multi-tenant-datasource)
+*	[JWT Security](https://github.com/edtoktay/pardus-tools-starter-parent/tree/main/spring-jwt-security)
+*	[Rule Flow](https://github.com/edtoktay/pardus-tools-starter-parent/tree/main/spring-rule-flow-manager)
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+## Installation
+```xml
+<dependencyManagement>
+	<dependencies>
+		<dependency>
+			<groupId>tech.pardus</groupId>
+			<artifactId>pardus-tools-starter-parent</artifactId>
+			<version>0.0.5</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+	</dependencies>
+</dependencyManagement>
+```
 
-### How do I get set up? ###
+## Building and Testing
+### Build with Maven
+```bash
+$ mvn clean package
+```
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+## License
+This repository is distributed under a MIT license. See the provided [LICENSE](/LICENSE) file.
