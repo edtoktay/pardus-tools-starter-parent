@@ -67,15 +67,15 @@ pom.xml
 	</dependency>
 	<!-- IBM AS400 Dependency-->
 	<dependency>
-	    <groupId>net.sf.jt400</groupId>
- 	   <artifactId>jt400</artifactId>
- 	   <version>6.6</version>
+		<groupId>net.sf.jt400</groupId>
+		<artifactId>jt400</artifactId>
+		<version>6.6</version>
 	</dependency>
 	<!-- Oracle DB Dependency -->
 	<dependency>
-    	<groupId>com.oracle</groupId>
-    	<artifactId>ojdbc7</artifactId>
-    	<version>12.1.0.2</version>
+		<groupId>com.oracle</groupId>
+		<artifactId>ojdbc7</artifactId>
+		<version>12.1.0.2</version>
 	</dependency>
 </dependencies>
 ```
