@@ -37,12 +37,11 @@ multi-datasource:
       password: password
       platform: org.hibernate.dialect.SQLServer2012Dialect 
       driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-	  primary: true
       hbm2dll-auto: update
-      primary: true
+	  primary: true
       show-sql: true
       format-sql: true
-	-
+    -
 	  id: ibmAs400
       url: jdbc:as400://localhost;libraries=as400Db;
       username: UNAME
@@ -50,7 +49,7 @@ multi-datasource:
       platform: org.hibernate.dialect.DB2400Dialect
       validation-query: 'SELECT current date FROM sysibm.sysdummy1'
       driver-class-name: com.ibm.as400.access.AS400JDBCDriver
-	-
+    -
       id: oracleDb
       url: jdbc:oracle:thin:@Localhost:1521:TEST
       username: username
