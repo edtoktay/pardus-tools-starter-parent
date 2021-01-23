@@ -38,11 +38,11 @@ multi-datasource:
       platform: org.hibernate.dialect.SQLServer2012Dialect 
       driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
       hbm2dll-auto: update
-	  primary: true
+      primary: true
       show-sql: true
       format-sql: true
     -
-	  id: ibmAs400
+      id: ibmAs400
       url: jdbc:as400://localhost;libraries=as400Db;
       username: UNAME
       password: PASSWORD
