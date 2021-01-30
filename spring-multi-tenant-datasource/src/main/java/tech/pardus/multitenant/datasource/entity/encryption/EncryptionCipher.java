@@ -16,18 +16,19 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class EncryptionCipher {
 
-  private static final String CIPHER_INSTANCE_NAME = "AES/CBC/PKCS5Padding";
+	private static final String CIPHER_INSTANCE_NAME = "AES/CBC/PKCS5Padding";
 
-  private static final String SECRET_KEY_ALGORITHM = "AES";
+	private static final String SECRET_KEY_ALGORITHM = "AES";
 
-  public Cipher configureAndGetInstance(int encryptionMode, String key)
-      throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException,
-          InvalidAlgorithmParameterException, InvalidAlgorithmParameterException {
-    var cipher = Cipher.getInstance(CIPHER_INSTANCE_NAME);
-    var secretKey = new SecretKeySpec(key.getBytes(), SECRET_KEY_ALGORITHM);
-    var ivBytes = new byte[cipher.getBlockSize()];
-    var algorithmParameters = new IvParameterSpec(ivBytes);
-    cipher.init(encryptionMode, secretKey, algorithmParameters);
-    return cipher;
-  }
+	public Cipher configureAndGetInstance(int encryptionMode, String key)
+	        throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException,
+	        InvalidAlgorithmParameterException, InvalidAlgorithmParameterException {
+		var cipher = Cipher.getInstance(CIPHER_INSTANCE_NAME);
+		var secretKey = new SecretKeySpec(key.getBytes(), SECRET_KEY_ALGORITHM);
+		var ivBytes = new byte[cipher.getBlockSize()];
+		var algorithmParameters = new IvParameterSpec(ivBytes);
+		cipher.init(encryptionMode, secretKey, algorithmParameters);
+		return cipher;
+	}
+
 }

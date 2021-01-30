@@ -167,3 +167,115 @@ public class OracleDbEntity {
 }
 ```
 All defined spring repositories will be work with relevantly marked database.
+
+### ReadOnly Entity
+Throws exception if crud operations performed.
+```java
+@Entity
+@Table(name = "ReadOnlyTable")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class ReadOnlyTestEntity extends ReadOnlyEntity {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
+	private Long id;
+
+	@Column(name = "TestColumn")
+	private String testColumn;
+
+}
+
+public interface ReadOnyRepository extends JpaRepository<ReadOnlyTestEntity, Long> {
+}
+
+ReadOnlyTestEntity entity = new ReadOnlyTestEntity();
+entity.setTestColumn("Test Column");
+readOnyRepository.save(entity); // Throws Exception
+```
+In case of any operation rather than select throws exception.
+
+### Audited Entity
+Abstract class contains Id, Created Date User so on. 
+**tech.pardus.utilities.SessionUserContextHolder** should require to set in order to set relevant username(s) missing username setted as "SYSTEM". (In Jwt Secure module **tech.pardus.utilities.SessionUserContextHolder** populated from JWT Token)
+```java
+@Entity
+@Table(name = "AuditedTable")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class AuditedTestEntity extends AuditedBaseEntity {
+
+	private static final long serialVersionUID = 1L;
+
+	@Column(name = "TestColumn")
+	private String testColumn;
+
+}
+
+public interface AuditedRepository extends JpaRepository<AuditedTestEntity, Long> {
+
+	List<AuditedTestEntity> findByTestColumn(String testColumn);
+
+}
+
+SessionUserContextHolder.setCurrentSessionUser("TEST USER");
+AuditedTestEntity entity = new AuditedTestEntity();
+entity.setTestColumn("Test Audited");
+auditedRepository.save(entity);
+```
+
+### String Encrypyed Column
+```java
+@Entity
+@Table(name = "TestTable")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class EncTestEntity extends AuditedBaseEntity {
+
+	private static final long serialVersionUID = 1L;
+
+	@Column(name = "TestColumn")
+	@Convert(converter = StringEncryptionConverter.class) //  Enables Encryption
+	private String testColumn;
+
+}
+
+public interface EncRepository extends JpaRepository<EncTestEntity, Long> {
+
+	List<EncTestEntity> findByTestColumn(String testColumn);
+
+}
+
+var entity = new EncTestEntity();
+entity.setTestColumn("Test Audited");
+encRepository.save(entity);
+var lst = encRepository.findByTestColumn("Test Audited");
+
+// Setting AES KEY should be 16, 25 or 32 bytes
+EncryptionKeyHolder.setEncryptionKey(encryptionKey);
+
+// Configuration of the AES key from application.yml
+@Configuration
+public class KeyConfig {
+
+	@Value("${encryption-key}")
+	@Getter
+	@Setter
+	private String encryptionKey;
+
+	@Bean
+	public String keyHolder() {
+		EncryptionKeyHolder.setEncryptionKey(encryptionKey);
+		return "OK";
+	}
+
+}
+```
+  
