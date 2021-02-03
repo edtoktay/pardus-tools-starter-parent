@@ -12,16 +12,16 @@ import tech.pardus.rule.flow.manager.models.RuleModel;
  * @author deniz.toktay
  * @since Sep 26, 2020
  */
-@SpringBootTest(classes = {App.class})
+@SpringBootTest(classes = { App.class })
 class ParserTest {
 
-  // @formatter:off
+	// @formatter:off
   static String in2 =
       "IF (ACTIVE_USER.AGENCY_CODE GT 300000 AND ACTIVE_USER.AGENCY_CODE LT 350000) {"
           + "	IF (ACTIVE_USER.USER_TYPE EQ 'Agencies') {"
           + "		IF (ACTIVE_USER.USER_ROLE EQ 'YONETICI') {"
           + "			IF (ACTIVE_USER.IS_ALT_AGENCY_USER EQ true) {"
-          + "				EXEC(ADD_ROLE_GROUP) -> ['ALT_AGENCY_MANAGER_ROLE_GROUP'];EXEC(ADD_ROLE)->['ASK_DEVICE_PERMISSION'];"
+          + "				EXEC(ADD_ROLE_GROUP) -> ['ALT_AGENCY_MANAGER_ROLE_GROUP', ACTIVE_USER.AGENCY_CODE ];EXEC(ADD_ROLE)->['ASK_DEVICE_PERMISSION'];"
           + "			} ELIF (ACTIVE_USER.IS_PLAZA_AGENCY EQ true){"
           + "				EXEC(ADD_ROLE_GROUP)->['PLAZA_AGENCY_MANAGER_ROLE_GROUP'];"
           + "			} ELSE {"
@@ -62,18 +62,18 @@ class ParserTest {
           Map.entry("ACTIVE_USER.IS_ALT_AGENCY_USER", true));
   // @formatter:on
 
-  @Test
-  void tester() {
-    var ruleModel = RuleModel.rule().name("HEDE").rule(in2).addRule();
-    ruleModel.processRule(bindings);
-  }
-  // @Test
-  // void test() {
-  // var operations = Operations.INSTANCE;
-  // operations.registerAllOperations();
-  // RuleParser.ruler(in2);
-  // var structure = RuleParser.parseSkeleton(in2);
-  // assertNotNull(structure);
-  // }
+	@Test
+	void tester() {
+		var ruleModel = RuleModel.rule().name("HEDE").rule(in2).addRule();
+		ruleModel.processRule(bindings);
+	}
+	// @Test
+	// void test() {
+	// var operations = Operations.INSTANCE;
+	// operations.registerAllOperations();
+	// RuleParser.ruler(in2);
+	// var structure = RuleParser.parseSkeleton(in2);
+	// assertNotNull(structure);
+	// }
 
 }
