@@ -189,12 +189,12 @@ public class ReadOnlyTestEntity extends ReadOnlyEntity {
 
 }
 
-public interface ReadOnyRepository extends JpaRepository<ReadOnlyTestEntity, Long> {
+public interface ReadOnlyRepository extends JpaRepository<ReadOnlyTestEntity, Long> {
 }
 
 ReadOnlyTestEntity entity = new ReadOnlyTestEntity();
 entity.setTestColumn("Test Column");
-readOnyRepository.save(entity); // Throws Exception
+readOnlyRepository.save(entity); // Throws Exception
 ```
 In case of any operation rather than select throws exception.
 
@@ -258,7 +258,7 @@ entity.setTestColumn("Test Audited");
 encRepository.save(entity);
 var lst = encRepository.findByTestColumn("Test Audited");
 
-// Setting AES KEY should be 16, 25 or 32 bytes
+// Setting AES KEY should be 16, 24 or 32 bytes
 EncryptionKeyHolder.setEncryptionKey(encryptionKey);
 
 // Configuration of the AES key from application.yml
