@@ -18,7 +18,7 @@ class ParserTest {
 	// @formatter:off
   static String in2 =
       "IF (ACTIVE_USER.AGENCY_CODE GT 300000 AND ACTIVE_USER.AGENCY_CODE LT 350000) {"
-          + "	IF (ACTIVE_USER.USER_TYPE EQ 'Agencies') {"
+          + "	IF (ACTIVE_USER.USER_TYPE EQ 'Agencies Of Hede') {"
           + "		IF (ACTIVE_USER.USER_ROLE EQ 'YONETICI') {"
           + "			IF (ACTIVE_USER.IS_ALT_AGENCY_USER EQ true) {"
           + "				EXEC(ADD_ROLE_GROUP) -> ['ALT_AGENCY_MANAGER_ROLE_GROUP', ACTIVE_USER.AGENCY_CODE ];EXEC(ADD_ROLE)->['ASK_DEVICE_PERMISSION'];"
@@ -57,7 +57,7 @@ class ParserTest {
   static Map<String, ?> bindings =
       Map.ofEntries(
           Map.entry("ACTIVE_USER.AGENCY_CODE", 320000),
-          Map.entry("ACTIVE_USER.USER_TYPE", "Agencies"),
+          Map.entry("ACTIVE_USER.USER_TYPE", "Agencies Of Hede"),
           Map.entry("ACTIVE_USER.USER_ROLE", "YONETICI"),
           Map.entry("ACTIVE_USER.IS_ALT_AGENCY_USER", true));
   // @formatter:on
