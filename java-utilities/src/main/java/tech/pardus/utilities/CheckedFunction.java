@@ -1,7 +1,8 @@
-/** */
 package tech.pardus.utilities;
 
 /**
+ * Function throws exception and terminates the stream
+ *
  * @author deniz.toktay
  * @param <T>
  * @param <R>

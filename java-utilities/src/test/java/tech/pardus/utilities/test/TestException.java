@@ -1,7 +1,8 @@
-/** */
 package tech.pardus.utilities.test;
 
 /**
+ * Exception class for PAsserts Tests
+ *
  * @author deniz.toktay
  * @since Aug 19, 2020
  */

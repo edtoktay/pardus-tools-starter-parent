@@ -1,4 +1,3 @@
-/** */
 package tech.pardus.utilities.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,6 +18,8 @@ import tech.pardus.utilities.AssertException;
 import tech.pardus.utilities.PAsserts;
 
 /**
+ * PAsserts Test Cases
+ *
  * @author deniz.toktay
  * @since Aug 19, 2020
  */

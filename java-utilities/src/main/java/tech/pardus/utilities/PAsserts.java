@@ -1,4 +1,3 @@
-/** */
 package tech.pardus.utilities;
 
 import java.lang.reflect.InvocationTargetException;
@@ -15,7 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author .toktay
+ * Asserts functions which throws given runtime exception or runtime exception with given error
+ * message or null message
+ *
+ * @author deniz.toktay
  * @since Aug 19, 2020
  */
 public class PAsserts {

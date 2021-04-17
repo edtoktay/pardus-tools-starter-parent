@@ -1,7 +1,8 @@
-/** */
 package tech.pardus.utilities;
 
 /**
+ * Consumer throws exception and terminates the consumer in stream
+ *
  * @author deniz.toktay
  * @param <T>
  * @param <E>

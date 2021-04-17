@@ -1,10 +1,11 @@
-/** */
 package tech.pardus.utilities;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
+ * Wrapper for Checked Consumer and Function
+ *
  * @author deniz.toktay
  * @since Aug 20, 2020
  */

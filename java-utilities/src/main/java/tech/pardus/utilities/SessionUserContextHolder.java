@@ -1,7 +1,8 @@
-/** */
 package tech.pardus.utilities;
 
 /**
+ * Thread based username holder.
+ *
  * @author deniz.toktay
  * @since Dec 29, 2020
  */

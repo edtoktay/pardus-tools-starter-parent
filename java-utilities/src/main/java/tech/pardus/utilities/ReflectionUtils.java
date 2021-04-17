@@ -1,4 +1,3 @@
-/** */
 package tech.pardus.utilities;
 
 import java.io.BufferedReader;
@@ -24,6 +23,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Reflection operations to handle class and annotation search operations and other reflective
+ * operations
+ *
  * @author deniz.toktay
  * @since Aug 20, 2020
  */
@@ -188,7 +190,7 @@ public class ReflectionUtils {
 
   private static Set<String> getReservedClasses() {
     if (CollectionUtils.isEmpty(reservedClasses)) {
-      reservedClasses = new HashSet<String>();
+      reservedClasses = new HashSet<>();
       try (var bufferedReader =
           new BufferedReader(
               new InputStreamReader(

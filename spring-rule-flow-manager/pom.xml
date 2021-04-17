@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>tech.pardus</groupId>
 		<artifactId>pardus-tools-starter-parent</artifactId>
-		<version>0.0.5</version>
+		<version>0.0.6.M2</version>
 	</parent>
 	<dependencyManagement>
 		<dependencies>
