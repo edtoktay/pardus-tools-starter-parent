@@ -12,7 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
@@ -44,7 +43,6 @@ import tech.pardus.multitenant.datasource.router.MultiTenantRouter;
 @Configuration
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
-@EnableConfigurationProperties(MultiDataSourceProperties.class)
 @AutoConfigurationPackage
 @ComponentScan("tech.pardus.multitenant.datasource")
 public class PersistanceLayerConfiguration {
