@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tech.pardus</groupId>
 	<artifactId>pardus-tools-starter-parent</artifactId>
-	<version>0.0.6.M2</version>
+	<version>0.0.7</version>
 	<packaging>pom</packaging>
 	<name>PardusToolsStarterParent</name>
 	<description>
@@ -104,30 +104,7 @@
 					<trimStackTrace>false</trimStackTrace>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>3.1.1</version>
-				<configuration>
-					<consoleOutput>true</consoleOutput>
-					<failsOnError>true</failsOnError>
-					<failOnViolation>true</failOnViolation>
-					<violationSeverity>warning</violationSeverity>
-					<linkXRef>false</linkXRef>
-					<encoding>${project.build.sourceEncoding}</encoding>
-					<configLocation>google_checks.xml</configLocation>
-					<suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
-				</configuration>
-				<executions>
-					<execution>
-						<id>checkstyle-check</id>
-						<phase>test</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+			
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
