@@ -14,7 +14,7 @@ public interface CheckedFunction<T, R, E extends Exception> {
 
   /**
    * @param t
-   * @return <R>
+   * @return Return Object
    * @throws E
    */
   R apply(T t) throws E;

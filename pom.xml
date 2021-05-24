@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tech.pardus</groupId>
 	<artifactId>pardus-tools-starter-parent</artifactId>
-	<version>0.0.7</version>
+	<version>0.0.8</version>
 	<packaging>pom</packaging>
 	<name>PardusToolsStarterParent</name>
 	<description>
@@ -94,17 +94,7 @@
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
 				<version>6.0.5</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.22.2</version>
-				<configuration>
-					<useSystemClassLoader>false</useSystemClassLoader>
-					<trimStackTrace>false</trimStackTrace>
-				</configuration>
-			</plugin>
-			
+			</plugin>			
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
@@ -118,6 +108,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
+				<version>3.2.1</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -166,6 +157,8 @@
 				<configuration>
 					<argLine>${jacocoArgLine}</argLine>
 					<reportsDirectory>${project.test.result.directory}/surefire</reportsDirectory>
+					<useSystemClassLoader>false</useSystemClassLoader>
+					<trimStackTrace>false</trimStackTrace>
 				</configuration>
 			</plugin>
 			<plugin>
