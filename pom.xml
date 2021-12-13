@@ -59,12 +59,14 @@
 		<sonar.coverage.exclusions>
 			**/qualitymeasurementsample/*
 		</sonar.coverage.exclusions>
+		<spring.boot.version>2.6.0</spring.boot.version>
 	</properties>
 	<modules>
 		<module>java-utilities</module>
 		<module>spring-rule-flow-manager</module>
 		<module>spring-jwt-security</module>
 		<module>spring-multi-tenant-datasource</module>
+		<module>datasource-metadata-generator</module>
 	</modules>
 	<distributionManagement>
 		<snapshotRepository>
