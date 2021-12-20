@@ -152,7 +152,7 @@ application.yml without default values
 security:
   jwt:
     token:
-      sign-key: hedeleme
+      sign-key: any-sign-key
 ```
 ##### Sample Rest Controller #####
 ```java
