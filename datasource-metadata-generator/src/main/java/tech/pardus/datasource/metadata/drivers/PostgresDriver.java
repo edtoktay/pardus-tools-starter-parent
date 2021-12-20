@@ -49,4 +49,10 @@ public class PostgresDriver implements DbDriver {
     return URL.toString();
   }
 
+  @Override
+  public void close() throws Exception {
+    this.properties = null;
+    this.jdbcUtils = null;
+  }
+
 }

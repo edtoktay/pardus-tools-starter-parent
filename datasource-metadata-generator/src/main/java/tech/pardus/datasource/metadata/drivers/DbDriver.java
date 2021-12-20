@@ -10,7 +10,7 @@ import tech.pardus.datasource.metadata.DatabaseType;
  * @author edtoktay
  * @since Nov 24, 2021
  */
-public interface DbDriver extends Serializable {
+public interface DbDriver extends Serializable, AutoCloseable {
 
   DatabaseType getDatabaseType();
 

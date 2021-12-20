@@ -32,4 +32,9 @@ public class Schema implements Serializable {
 
   private Set<Tables> tables;
 
+  public Tables getTable(String tableName) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }

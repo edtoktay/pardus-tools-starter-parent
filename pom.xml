@@ -64,9 +64,10 @@
 	<modules>
 		<module>java-utilities</module>
 		<module>spring-rule-flow-manager</module>
-		<module>spring-jwt-security</module>
 		<module>spring-multi-tenant-datasource</module>
 		<module>datasource-metadata-generator</module>
+		<module>spring-key-security</module>
+		<module>spring-security</module>
 	</modules>
 	<distributionManagement>
 		<snapshotRepository>

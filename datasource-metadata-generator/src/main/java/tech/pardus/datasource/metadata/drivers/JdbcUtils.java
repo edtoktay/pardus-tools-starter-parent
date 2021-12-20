@@ -17,19 +17,19 @@ import tech.pardus.utilities.PAsserts;
  */
 @Getter
 @Setter
-public final class JdbcUtils {
+public final class JdbcUtils implements AutoCloseable {
   private DatabaseProperties properties;
-  private String databaseUrl;
+  private char[] databaseUrl;
 
   public JdbcUtils(DatabaseProperties properties, String databaseUrl) {
     super();
     this.properties = properties;
-    this.databaseUrl = databaseUrl;
+    this.databaseUrl = databaseUrl.toCharArray();
   }
 
   public Connection getConnection() throws SQLException {
     checkIfDriverClassExists();
-    var conn = DriverManager.getConnection(databaseUrl, properties.getUserName(),
+    var conn = DriverManager.getConnection(new String(databaseUrl), properties.getUserName(),
         properties.getPassword());
     return conn;
   }
@@ -43,6 +43,12 @@ public final class JdbcUtils {
     }
     PAsserts.isTrue(classExists, () -> "Driver Class Not Found",
         () -> DriverClassNotFoundException.class);
+  }
+
+  @Override
+  public void close() throws Exception {
+    this.properties = null;
+    this.databaseUrl = null;
   }
 
 }

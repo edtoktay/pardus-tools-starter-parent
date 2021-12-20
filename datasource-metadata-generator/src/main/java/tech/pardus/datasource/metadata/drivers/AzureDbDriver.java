@@ -40,8 +40,12 @@ public class AzureDbDriver implements DbDriver {
 
   @Override
   public String getDatabaseUrl() {
-    // TODO Auto-generated method stub
     return null;
+  }
+
+  @Override
+  public void close() throws Exception {
+
   }
 
 }

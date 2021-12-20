@@ -6,6 +6,7 @@ package tech.pardus.datasource.metadata;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
 import tech.pardus.datasource.metadata.drivers.DatabaseProperties;
 import tech.pardus.datasource.metadata.drivers.DbDriverFactory;
@@ -13,7 +14,9 @@ import tech.pardus.datasource.metadata.drivers.JdbcUtils;
 import tech.pardus.datasource.metadata.exceptions.DatabaseNotFoundException;
 import tech.pardus.datasource.metadata.models.Databases;
 import tech.pardus.datasource.metadata.operations.CatalogMetaDataExtractor;
+import tech.pardus.datasource.metadata.operations.ColumnMetaDataExtractor;
 import tech.pardus.datasource.metadata.operations.SchemaMetaDataExtractor;
+import tech.pardus.datasource.metadata.operations.TableMetaDataExtractor;
 import tech.pardus.utilities.PAsserts;
 
 /**
@@ -85,6 +88,31 @@ public class GenerateMetaData implements Serializable {
   }
 
   public void getSchemasOfDatabases(Databases databases, String... databaseNames) {
+    Arrays.stream(databaseNames)
+        .forEach(databaseName -> getSchemasOfDatabase(databases, databaseName));
+  }
 
+  public void getTablesOfSchema(Databases databases, String databaseName, String schemaName) {
+    try (var conn = this.jdbcUtils.getConnection()) {
+      var tmde = new TableMetaDataExtractor();
+      var tables = tmde.getAllTables(conn, databaseName, schemaName);
+      databases.getDataBase(databaseName).getSchema(schemaName).setTables(tables);
+    } catch (SQLException e) {
+      log.error("Get Tables Exception for " + databaseName + " " + schemaName, e);
+      e.printStackTrace();
+    }
+  }
+
+  public void getColumnsOfTable(Databases databases, String databaseName, String schemaName,
+      String tableName) {
+    try (var conn = this.jdbcUtils.getConnection()) {
+      var cmde = new ColumnMetaDataExtractor();
+      var columns = cmde.getAllColumns(conn, tableName);
+      databases.getDataBase(databaseName).getSchema(schemaName).getTable(tableName)
+          .setColumns(columns);
+    } catch (SQLException e) {
+      log.error("Get Tables Exception for " + databaseName + " " + schemaName, e);
+      e.printStackTrace();
+    }
   }
 }

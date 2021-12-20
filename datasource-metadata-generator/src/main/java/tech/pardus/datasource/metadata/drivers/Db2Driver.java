@@ -44,4 +44,10 @@ public class Db2Driver implements DbDriver {
     return null;
   }
 
+  @Override
+  public void close() throws Exception {
+    // TODO Auto-generated method stub
+
+  }
+
 }
