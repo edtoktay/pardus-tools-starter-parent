@@ -142,7 +142,7 @@ No other configurations required
 security:
   jwt:
     token:
-	  issuer: false # default is false
+      issuer: false # default is false
       sign-key: any-sign-key # HS512 Signature secret key
       header: Authorization # header field default is Authorization
       header-prefix: Bearer # Header Prefix for token default is Bearer 
