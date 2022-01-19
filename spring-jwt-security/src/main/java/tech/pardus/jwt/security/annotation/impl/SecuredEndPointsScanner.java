@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
@@ -25,12 +26,16 @@ import tech.pardus.jwt.security.annotation.SecuredEndPoint;
  * @author deniz.toktay
  * @since Oct 28, 2020
  */
-@Configuration
+@Configuration("securedEndPointsScanner")
 public class SecuredEndPointsScanner implements ApplicationContextAware {
+  private static final String BEAN_NAME = "securedEndPointsScanner";
 
   @Override
   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
     for (String beanName : applicationContext.getBeanDefinitionNames()) {
+      if (StringUtils.equalsIgnoreCase(beanName, BEAN_NAME)) {
+    	continue;
+      }
       Object obj = applicationContext.getBean(beanName);
       Class<?> clazz = obj.getClass();
       if (AopUtils.isAopProxy(obj)) {
