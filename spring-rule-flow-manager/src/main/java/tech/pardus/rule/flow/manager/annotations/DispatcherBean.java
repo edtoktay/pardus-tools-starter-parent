@@ -22,6 +22,5 @@ public @interface DispatcherBean {
   /*
    * Name of the action dispatcher used in rule
    */
-  @SuppressWarnings("javadoc")
   String name();
 }

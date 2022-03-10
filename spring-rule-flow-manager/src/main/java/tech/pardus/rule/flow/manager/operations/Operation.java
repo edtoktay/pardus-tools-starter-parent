@@ -1,7 +1,7 @@
 /** */
 package tech.pardus.rule.flow.manager.operations;
 
-import java.util.Stack;
+import java.util.Deque;
 import tech.pardus.rule.flow.manager.expressions.Expression;
 
 /**
@@ -26,7 +26,7 @@ public abstract class Operation implements Expression {
    * 
    * @param symbol
    */
-  public Operation(String symbol) {
+  protected Operation(String symbol) {
     this.symbol = symbol;
   }
 
@@ -41,9 +41,9 @@ public abstract class Operation implements Expression {
    * @param stack
    * @return
    */
-  public abstract int parse(final String[] tokens, final int pos, final Stack<Expression> stack);
+  public abstract int parse(final String[] tokens, final int pos, final Deque<Expression> stack);
 
-  protected Integer findNextExpression(String[] tokens, int pos, Stack<Expression> stack) {
+  protected Integer findNextExpression(String[] tokens, int pos, Deque<Expression> stack) {
     var operations = Operations.INSTANCE;
     for (int i = pos; i < tokens.length; i++) {
       var op = operations.getOperation(tokens[i]);

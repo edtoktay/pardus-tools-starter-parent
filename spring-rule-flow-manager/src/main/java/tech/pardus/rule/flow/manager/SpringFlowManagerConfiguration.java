@@ -25,7 +25,6 @@ public class SpringFlowManagerConfiguration {
   @Bean
   public String managerInit() {
     Operations.INSTANCE.registerAllOperations();
-    // dispatcherManager.init();
     return "OK";
   }
 }

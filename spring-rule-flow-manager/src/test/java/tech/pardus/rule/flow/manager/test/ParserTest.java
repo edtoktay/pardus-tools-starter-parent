@@ -2,20 +2,18 @@
 package tech.pardus.rule.flow.manager.test;
 
 import java.util.Map;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import tech.pardus.rule.flow.manager.models.RuleModel;
 
 /**
  * @author deniz.toktay
  * @since Sep 26, 2020
  */
-@SpringBootTest(classes = { App.class })
+@SpringBootTest(classes = {App.class})
 class ParserTest {
 
-	// @formatter:off
+  // @formatter:off
   static String in2 =
       "IF (ACTIVE_USER.AGENCY_CODE GT 300000 AND ACTIVE_USER.AGENCY_CODE LT 350000) {"
           + "	IF (ACTIVE_USER.USER_TYPE EQ 'Agencies Of Hede') {"
@@ -62,18 +60,18 @@ class ParserTest {
           Map.entry("ACTIVE_USER.IS_ALT_AGENCY_USER", true));
   // @formatter:on
 
-	@Test
-	void tester() {
-		var ruleModel = RuleModel.rule().name("HEDE").rule(in2).addRule();
-		ruleModel.processRule(bindings);
-	}
-	// @Test
-	// void test() {
-	// var operations = Operations.INSTANCE;
-	// operations.registerAllOperations();
-	// RuleParser.ruler(in2);
-	// var structure = RuleParser.parseSkeleton(in2);
-	// assertNotNull(structure);
-	// }
+  @Test
+  void tester() {
+    var ruleModel = RuleModel.rule().name("HEDE").rule(in2).addRule();
+    ruleModel.processRule(bindings);
+  }
+  // @Test
+  // void test() {
+  // var operations = Operations.INSTANCE;
+  // operations.registerAllOperations();
+  // RuleParser.ruler(in2);
+  // var structure = RuleParser.parseSkeleton(in2);
+  // assertNotNull(structure);
+  // }
 
 }

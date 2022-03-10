@@ -3,12 +3,12 @@ package tech.pardus.rule.flow.manager;
 
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -173,7 +173,7 @@ public class RuleStringOperations {
     }
     var extractedArgs = extractStatementBetweenSquareBrackets(in);
     var splitted = StringUtils.split(extractedArgs, COMMA);
-    return Stream.of(splitted).map(t -> stripeStringFromAphs(t)).collect(Collectors.toList());
+    return Stream.of(splitted).map(RuleStringOperations::stripeStringFromAphs).toList();
   }
 
   /**
@@ -184,7 +184,7 @@ public class RuleStringOperations {
    */
   public static Expression expressionFromString(String expr) {
     var tokenList = new ArrayList<String>();
-    var stack = new Stack<Expression>();
+    var stack = new ArrayDeque<Expression>();
     var regex = Pattern.compile("[^\\s\"']+|\"([^\"]*)\"|'([^']*)'");
     var matcher = regex.matcher(expr);
     while (matcher.find()) {

@@ -64,12 +64,12 @@ public class PAsserts {
    * @param contains
    */
   public static void contains(Object container, Object contains) {
-    if (container instanceof Collection<?>) {
-      containingCheck((Collection<?>) container, contains);
-    } else if (container instanceof String) {
-      contains((String) container, (String) contains);
-    } else if (container instanceof Object[]) {
-      containingCheck((Object[]) container, contains);
+    if (container instanceof Collection<?> containerCollection) {
+      containingCheck(containerCollection, contains);
+    } else if (container instanceof String containerString) {
+      contains(containerString, (String) contains);
+    } else if (container instanceof Object[] containerArray) {
+      containingCheck(containerArray, contains);
     }
   }
 
@@ -146,8 +146,8 @@ public class PAsserts {
    * @param key
    */
   public static void equals(Object value, Object key) {
-    if (value instanceof String) {
-      equals((String) value, (String) key);
+    if (value instanceof String stringValue) {
+      equals(stringValue, (String) key);
     } else {
       equalObjects(value, key);
     }
@@ -159,8 +159,8 @@ public class PAsserts {
    * @param message
    */
   public static void equals(Object value, Object key, Supplier<String> message) {
-    if (value instanceof String) {
-      equals((String) value, (String) key, message);
+    if (value instanceof String stringValue) {
+      equals(stringValue, (String) key, message);
     } else {
       equalObjects(value, key, message);
     }
@@ -174,8 +174,8 @@ public class PAsserts {
    */
   public static void equals(Object value, Object key, Supplier<String> message,
       Supplier<Class<? extends RuntimeException>> exceptionSuplier) {
-    if (value instanceof String) {
-      equals((String) value, (String) key, message, exceptionSuplier);
+    if (value instanceof String stringValue) {
+      equals(stringValue, (String) key, message, exceptionSuplier);
     } else {
       equalObjects(value, key, message, exceptionSuplier);
     }
@@ -270,8 +270,8 @@ public class PAsserts {
 
   /** @param value */
   public static void isNull(Object value) {
-    if (value instanceof String) {
-      noText((String) value);
+    if (value instanceof String stringValue) {
+      noText(stringValue);
     } else if (Objects.nonNull(value)) {
       throw new AssertException();
     }
@@ -282,8 +282,8 @@ public class PAsserts {
    * @param message
    */
   public static void isNull(Object value, Supplier<String> message) {
-    if (value instanceof String) {
-      noText((String) value, message);
+    if (value instanceof String stringValue) {
+      noText(stringValue, message);
     } else if (Objects.nonNull(value)) {
       throw new AssertException(nullSafeGet(message));
     }
@@ -296,8 +296,8 @@ public class PAsserts {
    */
   public static void isNull(Object value, Supplier<String> message,
       Supplier<Class<? extends RuntimeException>> exceptionSuplier) {
-    if (value instanceof String) {
-      noText((String) value, message, exceptionSuplier);
+    if (value instanceof String stringValue) {
+      noText(stringValue, message, exceptionSuplier);
     } else if (Objects.nonNull(value)) {
       throw throwException(message, exceptionSuplier);
     }
@@ -479,8 +479,8 @@ public class PAsserts {
 
   /** @param value */
   public static void notNull(Object value) {
-    if (value instanceof String) {
-      hasText((String) value);
+    if (value instanceof String stringValue) {
+      hasText(stringValue);
     } else if (Objects.isNull(value)) {
       throw new AssertException();
     }
@@ -491,8 +491,8 @@ public class PAsserts {
    * @param message
    */
   public static void notNull(Object value, Supplier<String> message) {
-    if (value instanceof String) {
-      hasText((String) value, message);
+    if (value instanceof String stringValue) {
+      hasText(stringValue, message);
     } else if (Objects.isNull(value)) {
       throw new AssertException(nullSafeGet(message));
     }
@@ -505,8 +505,8 @@ public class PAsserts {
    */
   public static void notNull(Object value, Supplier<String> message,
       Supplier<Class<? extends RuntimeException>> exceptionSuplier) {
-    if (value instanceof String) {
-      hasText((String) value, message, exceptionSuplier);
+    if (value instanceof String stringValue) {
+      hasText(stringValue, message, exceptionSuplier);
     } else if (Objects.isNull(value)) {
       throw throwException(message, exceptionSuplier);
     }

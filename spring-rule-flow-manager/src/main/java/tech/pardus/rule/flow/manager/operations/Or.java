@@ -1,8 +1,8 @@
 /** */
 package tech.pardus.rule.flow.manager.operations;
 
+import java.util.Deque;
 import java.util.Map;
-import java.util.Stack;
 import tech.pardus.rule.flow.manager.expressions.Expression;
 
 /**
@@ -35,7 +35,7 @@ public class Or extends Operation {
   }
 
   @Override
-  public int parse(String[] tokens, int pos, Stack<Expression> stack) {
+  public int parse(String[] tokens, int pos, Deque<Expression> stack) {
     var left = stack.pop();
     int i = findNextExpression(tokens, pos + 1, stack);
     var right = stack.pop();

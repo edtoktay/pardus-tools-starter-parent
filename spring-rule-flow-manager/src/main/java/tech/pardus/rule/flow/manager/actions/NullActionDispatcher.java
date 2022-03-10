@@ -25,6 +25,6 @@ public class NullActionDispatcher implements ActionDispatcher {
   @Override
   public void fire(String... args) {
     logger.debug("Default Null Action Triggred");
-    Stream.of(args).forEach(System.out::println);
+    Stream.of(args).forEach(logger::debug);
   }
 }

@@ -2,6 +2,7 @@
 package tech.pardus.rule.flow.manager.models;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
@@ -90,14 +91,8 @@ public class RuleModel implements Serializable {
     var moveType = moveCursor(currentNode, bindings);
     Node<RulePart> tempNode = null;
     while (moveType != MoveType.STOP) {
-      switch (moveType) {
-        case CHILD:
-          tempNode = currentNode.getChild();
-          break;
-        default:
-          tempNode = currentNode.getNextSibling();
-          break;
-      }
+      tempNode =
+          (moveType == MoveType.CHILD) ? currentNode.getChild() : currentNode.getNextSibling();
       if (Objects.isNull(tempNode)) {
         moveType = MoveType.STOP;
       } else {
@@ -147,33 +142,31 @@ public class RuleModel implements Serializable {
 
   private boolean processNode(Node<RulePart> currentNode, Map<String, ?> bindings) {
     var control = false;
-    switch (currentNode.getData().getTypeOfRule()) {
-      case STATEMENT:
-        control = processExpression(currentNode, bindings);
-        break;
-      default:
-        try {
-          processDispatcher(currentNode, bindings);
-          control = true;
-        } catch (Exception e) {
-          log.error("Dispatcher Running Error ", e);
-        }
-        break;
+    if (currentNode.getData().getTypeOfRule() == RulePartType.STATEMENT) {
+      control = processExpression(currentNode, bindings);
+    } else {
+      try {
+        processDispatcher(currentNode, bindings);
+        control = true;
+      } catch (Exception e) {
+        log.error("Dispatcher Running Error ", e);
+      }
     }
     return control;
   }
 
   private boolean processExpression(Node<RulePart> currentNode, Map<String, ?> bindings) {
     var expressionModel = (ExpressionModel) currentNode.getData();
-    return expressionModel.isElseExpression() ? true
+    var elseStatement = true;
+    return expressionModel.isElseExpression() ? elseStatement
         : expressionModel.getExpression().interpret(bindings);
   }
 
   private void processDispatcher(Node<RulePart> currentNode, Map<String, ?> bindings)
-      throws Exception {
+      throws InstantiationException, IllegalAccessException, InvocationTargetException,
+      NoSuchMethodException {
     var actionModel = (ActionModel) currentNode.getData();
-    var managerBean =
-        (ActionDispatcherManager) SpringBeanInjectionContext.getBean(ActionDispatcherManager.class);
+    var managerBean = SpringBeanInjectionContext.getBean(ActionDispatcherManager.class);
     var args = new ArrayList<String>();
     if (ArrayUtils.isNotEmpty(actionModel.getArgs())) {
       for (var arg : actionModel.getArgs()) {
@@ -185,8 +178,8 @@ public class RuleModel implements Serializable {
   }
 
   private String getStringValueOfBinding(Object object) {
-    if (object instanceof String) {
-      return (String) object;
+    if (object instanceof String stringValue) {
+      return stringValue;
     }
     return String.valueOf(object);
   }

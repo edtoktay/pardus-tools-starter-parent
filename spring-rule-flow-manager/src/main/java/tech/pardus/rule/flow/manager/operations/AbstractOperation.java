@@ -1,7 +1,7 @@
 /** */
 package tech.pardus.rule.flow.manager.operations;
 
-import java.util.Stack;
+import java.util.Deque;
 import tech.pardus.rule.flow.manager.expressions.BaseType;
 import tech.pardus.rule.flow.manager.expressions.Expression;
 import tech.pardus.rule.flow.manager.expressions.Variable;
@@ -18,15 +18,15 @@ public abstract class AbstractOperation extends Operation {
   /**
    * @param symbol
    */
-  public AbstractOperation(String symbol) {
+  protected AbstractOperation(String symbol) {
     super(symbol);
   }
 
   @Override
-  public int parse(String[] tokens, int pos, Stack<Expression> stack) {
+  public int parse(String[] tokens, int pos, Deque<Expression> stack) {
     if (pos - 1 >= 0 && tokens.length >= pos + 1) {
-      var var = tokens[pos - 1];
-      this.leftOperand = new Variable(var);
+      var token = tokens[pos - 1];
+      this.leftOperand = new Variable(token);
       this.rightOperand = BaseType.getBaseType(tokens[pos + 1]);
       stack.push(this);
       return pos + 1;

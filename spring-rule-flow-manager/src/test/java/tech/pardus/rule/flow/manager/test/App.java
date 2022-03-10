@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @since Sep 27, 2020
  */
 @SpringBootApplication
-@ComponentScan("tech.pardus.rule.flow.manager")
+@ComponentScan(basePackages = {"tech.pardus.rule.flow.manager", "tech.pardus.spring.utilities"})
 public class App {
 
   /** @param args */

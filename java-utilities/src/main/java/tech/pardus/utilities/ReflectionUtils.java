@@ -14,6 +14,8 @@ import java.util.stream.Stream;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.reflections.Reflections;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Reflection operations to handle class and annotation search operations and other reflective
@@ -23,6 +25,8 @@ import org.reflections.Reflections;
  * @since Aug 20, 2020
  */
 public class ReflectionUtils {
+
+  private static final Logger logger = LoggerFactory.getLogger(ReflectionUtils.class);
 
   private ReflectionUtils() {}
 
@@ -119,7 +123,7 @@ public class ReflectionUtils {
   /** @return Set of Package Names */
   public static Set<String> findPackageNames() {
     // @formatter:off
-    Predicate<? super String> notReservedPredicate = t -> isNotReserved(t);
+    Predicate<? super String> notReservedPredicate = ReflectionUtils::isNotReserved;
     return Stream.of(Package.getPackages())
         .map(Package::getName)
         .filter(notReservedPredicate)
@@ -143,7 +147,7 @@ public class ReflectionUtils {
           reservedClasses.add(line.strip());
         }
       } catch (IOException e) {
-        e.printStackTrace();
+        logger.error("reserved class exception", e);
       }
     }
     return reservedClasses;

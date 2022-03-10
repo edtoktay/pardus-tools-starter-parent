@@ -16,9 +16,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Fact {
 
-  @SuppressWarnings("javadoc")
   String name();
 
-  @SuppressWarnings("javadoc")
   String description() default "";
 }

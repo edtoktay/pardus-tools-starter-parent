@@ -26,7 +26,7 @@
 		<url>https://github.com/edtoktay/pardus-tools-starter-parent</url>
 		<connection>scm:git:https://github.com/edtoktay/pardus-tools-starter-parent</connection>
 		<developerConnection>scm:git:https://github.com/edtoktay/pardus-tools-starter-parent</developerConnection>
-		<tag>pardus-tools-starter-parent-0.0.2</tag>
+		<tag>pardus-tools-starter-parent-1.0.0</tag>
 	</scm>
 	<developers>
 		<developer>
@@ -51,6 +51,8 @@
 
 		<project.test.result.directory>${project.build.directory}/test-results</project.test.result.directory>
 		<sonar.host.url>http://localhost:9000</sonar.host.url>
+		<sonar.login>admin</sonar.login>
+		<sonar.password>2864231</sonar.password>
 		<sonar.scm.provider>git</sonar.scm.provider>
 		<sonar.java.codeCoveragePlugin>jacoco</sonar.java.codeCoveragePlugin>
 		<sonar.coverage.jacoco.xmlReportPaths>${project.test.result.directory}/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
@@ -62,6 +64,12 @@
 		</sonar.coverage.exclusions>
 		<spring.boot.version>2.6.2</spring.boot.version>
 	</properties>
+	<modules>
+		<module>java-utilities</module>
+		<module>spring-utilities</module>
+		<module>spring-rule-flow-manager</module>
+		<module>spring-security</module>
+	</modules>
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
@@ -131,13 +139,16 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9.1</version>
+				<version>3.3.2</version>
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
 						<goals>
 							<goal>jar</goal>
 						</goals>
+						<configuration>
+							<additionalJOption>-Xdoclint:none</additionalJOption>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -160,7 +171,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.5</version>
+				<version>0.8.7</version>
 				<executions>
 					<execution>
 						<id>pre-test</id>
@@ -187,9 +198,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<modules>
-		<module>java-utilities</module>
-		<module>spring-utilities</module>
-		<module>spring-rule-flow-manager</module>
-	</modules>
 </project>

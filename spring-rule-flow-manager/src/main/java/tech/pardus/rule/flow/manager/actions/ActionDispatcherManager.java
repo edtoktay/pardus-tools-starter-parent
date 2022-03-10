@@ -2,21 +2,22 @@
 package tech.pardus.rule.flow.manager.actions;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import tech.pardus.rule.flow.manager.annotations.DispatcherBean;
 import tech.pardus.rule.flow.manager.exceptions.UnknownDispatcherException;
 import tech.pardus.spring.utilities.SpringBeanInjectionContext;
@@ -92,9 +93,13 @@ public class ActionDispatcherManager {
    * 
    * @param name
    * @param args
-   * @throws Exception
+   * @throws NoSuchMethodException
+   * @throws InvocationTargetException
+   * @throws IllegalAccessException
+   * @throws InstantiationException
    */
-  public void runDispatcher(String name, String... args) throws Exception {
+  public void runDispatcher(String name, String... args) throws InstantiationException,
+      IllegalAccessException, InvocationTargetException, NoSuchMethodException {
     var beanDef = beanList.get(name);
     if (Objects.isNull(beanDef)) {
       beanDef = beanList.get("Default");
@@ -107,7 +112,7 @@ public class ActionDispatcherManager {
       bean.fire(args);
     }
   }
-  
+
   private ActionDispatcher getActionDispatcher(Class<?> beanClass) {
     var bean = SpringBeanInjectionContext.getBean(beanClass);
     if (bean instanceof ActionDispatcher dispatcher) {
@@ -124,7 +129,7 @@ public class ActionDispatcherManager {
   @Setter
   @AllArgsConstructor
   @NoArgsConstructor
-  public class ActionBeanDefn implements Serializable {
+  public static class ActionBeanDefn implements Serializable {
 
     /** */
     private static final long serialVersionUID = 1L;

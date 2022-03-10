@@ -7,11 +7,11 @@ import static org.apache.commons.lang3.StringUtils.startsWithIgnoreCase;
 import static org.apache.commons.lang3.StringUtils.stripStart;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.Stack;
 import java.util.stream.IntStream;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -35,6 +35,39 @@ public class RuleParser {
 
   private static final List<String> keywords = Arrays.asList("IF", "ELIF", "ELSE", "EXEC");
 
+  private RuleParser() {
+
+  }
+
+  private static Node<RulePart> handleIfStatement(Node<RulePart> headNode,
+      Pair<Integer, String> rulePart, String strippedExpression) {
+    var modelBuilder = ExpressionModel.expression();
+    modelBuilder.isHeadExpression();
+    modelBuilder.expression(RuleStringOperations.extarctExpression(strippedExpression));
+    if (Objects.isNull(headNode)) {
+      headNode = new Node<>(modelBuilder.addExpression(), rulePart.getKey());
+    } else if (rulePart.getKey() == headNode.getLevel()) {
+      headNode.addSibling(modelBuilder.addExpression());
+      headNode = headNode.getNextSibling();
+    } else if (rulePart.getKey() > headNode.getLevel()) {
+      headNode.addChild(modelBuilder.addExpression());
+      headNode = headNode.getChild();
+    } else {
+      headNode = findLevelNode(headNode, rulePart.getKey());
+      headNode.addSibling(modelBuilder.addExpression());
+      headNode = headNode.getNextSibling();
+    }
+    headNode.setExecutable(true);
+    return headNode;
+  }
+
+  private static String stripString(String expressionString) {
+    var strippedString = expressionString.replaceAll("\n", " ").replaceAll("\r", "");
+    strippedString = stripStart(strippedString, " ");
+    strippedString = RegExUtils.removeAll(strippedString, "\t");
+    return strippedString;
+  }
+
   /**
    * @param in rule string
    * @return head node of the rule
@@ -45,31 +78,14 @@ public class RuleParser {
     var skel = parseSkeleton(in);
     for (var sk : skel) {
       var modelBuilder = ExpressionModel.expression();
-      // System.out.println("RAW: " + sk.getValue());
-      var strippedString = sk.getRight().replaceAll("\n", " ").replaceAll("\r", "");
-      strippedString = stripStart(strippedString, " ");
-      strippedString = RegExUtils.removeAll(strippedString, "\t");
+      var strippedString = stripString(sk.getRight());
       switch (getKeyword(strippedString)) {
         case 0:
-          // System.out.println("Level: " + sk.getLeft() + " IF STATEMENT: ");
-          // System.out.println(strippedString);
-          modelBuilder.isHeadExpression();
-          modelBuilder.expression(RuleStringOperations.extarctExpression(strippedString));
           if (Objects.isNull(headNode)) {
-            headNode = new Node<RulePart>(modelBuilder.addExpression(), sk.getKey());
-            currentNode = headNode;
-          } else if (sk.getKey() == currentNode.getLevel()) {
-            currentNode.addSibling(modelBuilder.addExpression());
-            currentNode = currentNode.getNextSibling();
-          } else if (sk.getKey() > currentNode.getLevel()) {
-            currentNode.addChild(modelBuilder.addExpression());
-            currentNode = currentNode.getChild();
+            headNode = currentNode = handleIfStatement(headNode, sk, strippedString);
           } else {
-            currentNode = findLevelNode(currentNode, sk.getKey());
-            currentNode.addSibling(modelBuilder.addExpression());
-            currentNode = currentNode.getNextSibling();
+            currentNode = handleIfStatement(currentNode, sk, strippedString);
           }
-          currentNode.setExecutable(true);
           break;
         case 1:
           modelBuilder.expression(RuleStringOperations.extarctExpression(strippedString));
@@ -86,27 +102,36 @@ public class RuleParser {
         default:
           var actionBuilder = ActionModel.action();
           handleAction(actionBuilder, strippedString);
-          if (sk.getKey() == currentNode.getLevel()) {
-            currentNode.addSibling(actionBuilder.addAction());
-            currentNode = currentNode.getNextSibling();
-          } else if (sk.getKey() > currentNode.getLevel()) {
-            currentNode.addChild(actionBuilder.addAction());
-            currentNode = currentNode.getChild();
-          } else {
-            currentNode = findLevelNode(currentNode, sk.getKey());
-            currentNode.addSibling(actionBuilder.addAction());
-            currentNode = currentNode.getNextSibling();
+          if (Objects.isNull(currentNode)) {
+            throw new InvalidRuleStructure();
           }
-          currentNode.setExecutable(true);
+          currentNode = handleDispatcherAction(currentNode, sk, actionBuilder);
           break;
       }
     }
     return headNode;
   }
 
+  private static Node<RulePart> handleDispatcherAction(Node<RulePart> currentNode,
+      Pair<Integer, String> sk, ActionBuilder actionBuilder) {
+    if (sk.getKey() == currentNode.getLevel()) {
+      currentNode.addSibling(actionBuilder.addAction());
+      currentNode = currentNode.getNextSibling();
+    } else if (sk.getKey() > currentNode.getLevel()) {
+      currentNode.addChild(actionBuilder.addAction());
+      currentNode = currentNode.getChild();
+    } else {
+      currentNode = findLevelNode(currentNode, sk.getKey());
+      currentNode.addSibling(actionBuilder.addAction());
+      currentNode = currentNode.getNextSibling();
+    }
+    currentNode.setExecutable(true);
+    return currentNode;
+  }
+
   private static void handleAction(ActionBuilder actionBuilder, String strippedString) {
     actionBuilder.dispatcher(RuleStringOperations.extractStatementBetweenBrackets(strippedString));
-    RuleStringOperations.extractArgs(strippedString).forEach(t -> actionBuilder.withArg(t));
+    RuleStringOperations.extractArgs(strippedString).forEach(actionBuilder::withArg);
   }
 
   private static Node<RulePart> findLevelNode(Node<RulePart> currentNode, Integer level) {
@@ -123,43 +148,42 @@ public class RuleParser {
   private static int getKeyword(String in) {
     return IntStream.range(0, keywords.size())
         .filter(i -> startsWithIgnoreCase(in, keywords.get(i))).findFirst()
-        .orElseThrow(() -> new InvalidRuleStructure());
+        .orElseThrow(InvalidRuleStructure::new);
   }
 
   private static List<Pair<Integer, String>> parseSkeleton(String in) {
     var ruleParts = new ArrayList<Pair<Integer, String>>();
-    var stack = new Stack<Character>();
+    var stack = new ArrayDeque<Character>();
     var iterator = new StringCharacterIterator(in);
     var temp = "";
     var sb = new StringBuilder();
     while (iterator.current() != CharacterIterator.DONE) {
-      if (iterator.current() == CURLY_BRACKET_OPEN) {
-        stack.push(CURLY_BRACKET_OPEN);
-        if (isNotBlank(sb.toString())) {
-          temp = sb.toString();
+      switch (iterator.current()) {
+        case CURLY_BRACKET_OPEN -> {
+          stack.push(CURLY_BRACKET_OPEN);
+          if (isNotBlank(sb.toString())) {
+            temp = sb.toString();
+            sb = new StringBuilder();
+          }
+        }
+        case CURLY_BRACKET_CLOSE -> {
+          if (isBlank(temp)) {
+            temp = sb.toString();
+            sb = new StringBuilder();
+          } else {
+            ruleParts.add(Pair.of(Integer.valueOf(stack.size() + 1), temp));
+            temp = null;
+          }
+          stack.pop();
+        }
+        case SEMI_COLON -> {
+          sb.append(iterator.current());
+          ruleParts.add(Pair.of(Integer.valueOf(stack.size() + 1), sb.toString()));
           sb = new StringBuilder();
         }
-      } else if (iterator.current() == CURLY_BRACKET_CLOSE) {
-        if (isBlank(temp)) {
-          temp = sb.toString();
-          sb = new StringBuilder();
-        }
-        if (isNotBlank(temp)) {
-          // System.out.println("Level: " + (stack.size() + 1) + " " + temp);
-          ruleParts.add(Pair.of(Integer.valueOf(stack.size() + 1), temp));
-          temp = null;
-        }
-        stack.pop();
-      } else if (iterator.current() == SEMI_COLON) {
-        // System.out.println("Level: " + (stack.size() + 1) + " " + sb.toString());
-        sb.append(iterator.current());
-        ruleParts.add(Pair.of(Integer.valueOf(stack.size() + 1), sb.toString()));
-        sb = new StringBuilder();
-      } else {
-        sb.append(iterator.current());
+        default -> sb.append(iterator.current());
       }
       if (isNotBlank(temp)) {
-        // System.out.println("Level: " + stack.size() + " " + temp);
         ruleParts.add(Pair.of(Integer.valueOf(stack.size()), temp));
         temp = null;
       }

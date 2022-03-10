@@ -79,10 +79,10 @@ public class Node<T> implements Serializable {
    * @param data
    */
   public void addChild(T data) {
-    var child = new Node<T>(data);
-    child.setLevel(this.getLevel() + 1);
-    child.parent = this;
-    this.child = child;
+    var newChild = new Node<T>(data);
+    newChild.setLevel(this.getLevel() + 1);
+    newChild.parent = this;
+    this.child = newChild;
   }
 
   /**
