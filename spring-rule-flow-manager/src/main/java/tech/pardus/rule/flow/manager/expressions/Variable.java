@@ -14,6 +14,9 @@ public class Variable implements Expression {
 
   private String name;
 
+  /**
+   * @param name
+   */
   public Variable(String name) {
     super();
     this.name = name;
@@ -24,10 +27,16 @@ public class Variable implements Expression {
     return true;
   }
 
+  /**
+   * @return get the name of the variable
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * @param name
+   */
   public void setName(String name) {
     this.name = name;
   }

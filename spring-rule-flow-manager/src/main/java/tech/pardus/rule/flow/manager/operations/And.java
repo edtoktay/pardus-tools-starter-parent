@@ -3,11 +3,13 @@ package tech.pardus.rule.flow.manager.operations;
 
 import java.util.Map;
 import java.util.Stack;
-
 import tech.pardus.rule.flow.manager.expressions.Expression;
 
 /**
- * @author deniz.toktay
+ * Predefined And (defined with AND symbol) operation && in given objects preferred to use by
+ * boolean values
+ * 
+ * @author deniztoktay
  * @since Aug 16, 2020
  */
 public class And extends Operation {
@@ -15,6 +17,9 @@ public class And extends Operation {
   /** */
   private static final long serialVersionUID = -9071753385364905452L;
 
+  /**
+   * 
+   */
   public And() {
     super("AND");
   }

@@ -2,7 +2,6 @@
 package tech.pardus.rule.flow.manager.operations;
 
 import java.util.Stack;
-
 import tech.pardus.rule.flow.manager.expressions.BaseType;
 import tech.pardus.rule.flow.manager.expressions.Expression;
 import tech.pardus.rule.flow.manager.expressions.Variable;
@@ -16,6 +15,9 @@ public abstract class AbstractOperation extends Operation {
   /** */
   private static final long serialVersionUID = 1L;
 
+  /**
+   * @param symbol
+   */
   public AbstractOperation(String symbol) {
     super(symbol);
   }

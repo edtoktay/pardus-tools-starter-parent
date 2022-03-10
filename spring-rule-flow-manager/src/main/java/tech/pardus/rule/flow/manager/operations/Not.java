@@ -3,10 +3,12 @@ package tech.pardus.rule.flow.manager.operations;
 
 import java.util.Map;
 import java.util.Stack;
-
 import tech.pardus.rule.flow.manager.expressions.Expression;
 
 /**
+ * Predefined Not (defined with NOT symbol) operation ! in given objects preferred to use by boolean
+ * values
+ * 
  * @author deniz.toktay
  * @since Aug 16, 2020
  */
@@ -15,6 +17,9 @@ public class Not extends Operation {
   /** */
   private static final long serialVersionUID = -7859824073707215076L;
 
+  /**
+   * 
+   */
   public Not() {
     super("NOT");
   }

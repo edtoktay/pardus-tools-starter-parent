@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tech.pardus</groupId>
 	<artifactId>pardus-tools-starter-parent</artifactId>
-	<version>0.0.10</version>
+	<version>1.0.0</version>
 	<packaging>pom</packaging>
 	<name>PardusToolsStarterParent</name>
 	<description>
@@ -37,16 +37,17 @@
 		</developer>
 	</developers>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 		<default.encode>UTF-8</default.encode>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<project.build.sourceEncoding>${default.encode}</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>${default.encode}</project.reporting.outputEncoding>
 
-		<common.lang.version>3.9</common.lang.version>
+		<common.lang.version>3.12.0</common.lang.version>
 		<common.collection.version>4.4</common.collection.version>
-		<slf4j.version>1.7.30</slf4j.version>
+		<common.text.version>1.9</common.text.version>
+		<slf4j.version>1.7.32</slf4j.version>
 
 		<project.test.result.directory>${project.build.directory}/test-results</project.test.result.directory>
 		<sonar.host.url>http://localhost:9000</sonar.host.url>
@@ -59,13 +60,8 @@
 		<sonar.coverage.exclusions>
 			**/qualitymeasurementsample/*
 		</sonar.coverage.exclusions>
+		<spring.boot.version>2.6.2</spring.boot.version>
 	</properties>
-	<modules>
-		<module>java-utilities</module>
-		<module>spring-rule-flow-manager</module>
-		<module>spring-jwt-security</module>
-		<module>spring-multi-tenant-datasource</module>
-	</modules>
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
@@ -191,4 +187,9 @@
 			</plugin>
 		</plugins>
 	</build>
+	<modules>
+		<module>java-utilities</module>
+		<module>spring-utilities</module>
+		<module>spring-rule-flow-manager</module>
+	</modules>
 </project>

@@ -2,11 +2,13 @@
 package tech.pardus.rule.flow.manager.operations;
 
 import java.util.Map;
-
 import tech.pardus.rule.flow.manager.expressions.BaseType;
 import tech.pardus.rule.flow.manager.expressions.Variable;
 
 /**
+ * Predefined Greater Than OR Equal (defined with GTE symbol) operation uses integer and float
+ * values
+ * 
  * @author deniz.toktay
  * @since Aug 16, 2020
  */
@@ -15,6 +17,9 @@ public class GreaterOrEqual extends AbstractOperation {
   /** */
   private static final long serialVersionUID = -8997170293627958781L;
 
+  /**
+   * 
+   */
   public GreaterOrEqual() {
     super("GTE");
   }
@@ -29,9 +34,9 @@ public class GreaterOrEqual extends AbstractOperation {
     BaseType<?> type = (BaseType<?>) this.rightOperand;
     if (type.getType().equals(obj.getClass())) {
       if (Integer.class.isAssignableFrom(type.getType())) {
-        return (Integer) type.value <= (Integer) obj;
+        return (Integer) type.getValue() <= (Integer) obj;
       } else if (Float.class.isAssignableFrom(type.getType())) {
-        return (Float) type.value <= (Float) obj;
+        return (Float) type.getValue() <= (Float) obj;
       }
     }
     return false;

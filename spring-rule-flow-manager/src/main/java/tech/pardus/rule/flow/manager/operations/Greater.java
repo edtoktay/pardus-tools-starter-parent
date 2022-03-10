@@ -2,11 +2,12 @@
 package tech.pardus.rule.flow.manager.operations;
 
 import java.util.Map;
-
 import tech.pardus.rule.flow.manager.expressions.BaseType;
 import tech.pardus.rule.flow.manager.expressions.Variable;
 
 /**
+ * Predefined Greater Than (defined with GT symbol) operation uses integer and float
+ * 
  * @author deniz.toktay
  * @since Aug 16, 2020
  */
@@ -15,6 +16,9 @@ public class Greater extends AbstractOperation {
   /** */
   private static final long serialVersionUID = 2997965799465673184L;
 
+  /**
+   * 
+   */
   public Greater() {
     super("GT");
   }
@@ -29,9 +33,9 @@ public class Greater extends AbstractOperation {
     BaseType<?> type = (BaseType<?>) this.rightOperand;
     if (type.getType().equals(obj.getClass())) {
       if (Integer.class.isAssignableFrom(type.getType())) {
-        return (Integer) type.value < (Integer) obj;
+        return (Integer) type.getValue() < (Integer) obj;
       } else if (Float.class.isAssignableFrom(type.getType())) {
-        return (Float) type.value < (Float) obj;
+        return (Float) type.getValue() < (Float) obj;
       }
     }
     return false;

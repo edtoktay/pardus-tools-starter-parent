@@ -11,7 +11,20 @@ import java.util.function.Function;
  */
 public class LambdaWrapper {
 
-  private LambdaWrapper() {}
+  /**
+   * @param <T>
+   * @param throwingConsumer
+   * @return consumer of T
+   */
+  public static <T> Consumer<T> consumerChecker(CheckedConsumer<T, Exception> throwingConsumer) {
+    return i -> {
+      try {
+        throwingConsumer.accept(i);
+      } catch (Exception ex) {
+        throw new CheckedException(ex);
+      }
+    };
+  }
 
   /**
    * @param <T>
@@ -30,18 +43,5 @@ public class LambdaWrapper {
     };
   }
 
-  /**
-   * @param <T>
-   * @param throwingConsumer
-   * @return consumer of T
-   */
-  public static <T> Consumer<T> consumerChecker(CheckedConsumer<T, Exception> throwingConsumer) {
-    return i -> {
-      try {
-        throwingConsumer.accept(i);
-      } catch (Exception ex) {
-        throw new CheckedException(ex);
-      }
-    };
-  }
+  private LambdaWrapper() {}
 }

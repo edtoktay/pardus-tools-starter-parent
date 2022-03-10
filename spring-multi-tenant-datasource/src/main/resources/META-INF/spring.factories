@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration= \
-tech.pardus.multitenant.datasource.multi.PersistanceLayerConfiguration, \
-tech.pardus.multitenant.datasource.single.PersistanceLayerConfiguration

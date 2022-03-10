@@ -2,13 +2,12 @@
 package tech.pardus.rule.flow.manager.expressions;
 
 import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
-
 import tech.pardus.rule.flow.manager.RuleStringOperations;
 
 /**
  * @author deniz.toktay
+ * @param <T>
  * @since Aug 16, 2020
  */
 public class BaseType<T> implements Expression {
@@ -16,10 +15,14 @@ public class BaseType<T> implements Expression {
   /** */
   private static final long serialVersionUID = -4668383226200294418L;
 
-  public T value;
+  private T value;
 
-  public Class<T> type;
+  private Class<T> type;
 
+  /**
+   * @param value
+   * @param type
+   */
   public BaseType(T value, Class<T> type) {
     super();
     this.value = value;
@@ -31,6 +34,10 @@ public class BaseType<T> implements Expression {
     return true;
   }
 
+  /**
+   * @param type
+   * @return
+   */
   public static BaseType<?> getBaseType(String type) {
     if (StringUtils.isBlank(type)) {
       throw new IllegalArgumentException("The provided string must not be null");
@@ -46,10 +53,16 @@ public class BaseType<T> implements Expression {
     }
   }
 
+  /**
+   * @return
+   */
   public T getValue() {
     return value;
   }
 
+  /**
+   * @return
+   */
   public Class<T> getType() {
     return type;
   }

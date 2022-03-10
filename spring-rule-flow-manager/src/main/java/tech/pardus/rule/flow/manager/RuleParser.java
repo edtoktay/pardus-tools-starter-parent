@@ -5,7 +5,6 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.startsWithIgnoreCase;
 import static org.apache.commons.lang3.StringUtils.stripStart;
-
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 import java.util.ArrayList;
@@ -14,10 +13,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
 import java.util.stream.IntStream;
-
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.tuple.Pair;
-
 import tech.pardus.rule.flow.manager.datastruture.Node;
 import tech.pardus.rule.flow.manager.models.ActionModel;
 import tech.pardus.rule.flow.manager.models.ActionModel.ActionBuilder;
@@ -38,20 +35,24 @@ public class RuleParser {
 
   private static final List<String> keywords = Arrays.asList("IF", "ELIF", "ELSE", "EXEC");
 
+  /**
+   * @param in rule string
+   * @return head node of the rule
+   */
   public static Node<RulePart> ruler(String in) {
     Node<RulePart> headNode = null;
     Node<RulePart> currentNode = null;
     var skel = parseSkeleton(in);
     for (var sk : skel) {
       var modelBuilder = ExpressionModel.expression();
-      //			System.out.println("RAW:  " + sk.getValue());
+      // System.out.println("RAW: " + sk.getValue());
       var strippedString = sk.getRight().replaceAll("\n", " ").replaceAll("\r", "");
       strippedString = stripStart(strippedString, " ");
       strippedString = RegExUtils.removeAll(strippedString, "\t");
       switch (getKeyword(strippedString)) {
         case 0:
-          //				System.out.println("Level: " + sk.getLeft() + " IF STATEMENT: ");
-          //				System.out.println(strippedString);
+          // System.out.println("Level: " + sk.getLeft() + " IF STATEMENT: ");
+          // System.out.println(strippedString);
           modelBuilder.isHeadExpression();
           modelBuilder.expression(RuleStringOperations.extarctExpression(strippedString));
           if (Objects.isNull(headNode)) {
@@ -110,10 +111,8 @@ public class RuleParser {
 
   private static Node<RulePart> findLevelNode(Node<RulePart> currentNode, Integer level) {
     while (currentNode != null) {
-      currentNode =
-          Objects.nonNull(currentNode.getParent())
-              ? currentNode.getParent()
-              : currentNode.getPrevSibling();
+      currentNode = Objects.nonNull(currentNode.getParent()) ? currentNode.getParent()
+          : currentNode.getPrevSibling();
       if (currentNode.getLevel() == level) {
         return currentNode;
       }
@@ -123,12 +122,11 @@ public class RuleParser {
 
   private static int getKeyword(String in) {
     return IntStream.range(0, keywords.size())
-        .filter(i -> startsWithIgnoreCase(in, keywords.get(i)))
-        .findFirst()
+        .filter(i -> startsWithIgnoreCase(in, keywords.get(i))).findFirst()
         .orElseThrow(() -> new InvalidRuleStructure());
   }
 
-  public static List<Pair<Integer, String>> parseSkeleton(String in) {
+  private static List<Pair<Integer, String>> parseSkeleton(String in) {
     var ruleParts = new ArrayList<Pair<Integer, String>>();
     var stack = new Stack<Character>();
     var iterator = new StringCharacterIterator(in);

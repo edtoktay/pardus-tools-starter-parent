@@ -5,17 +5,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
-
 import org.apache.commons.lang3.ArrayUtils;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import tech.pardus.rule.flow.manager.FlowManagerSpringContext;
 import tech.pardus.rule.flow.manager.RuleParser;
 import tech.pardus.rule.flow.manager.actions.ActionDispatcherManager;
 import tech.pardus.rule.flow.manager.datastruture.Node;
+import tech.pardus.spring.utilities.SpringBeanInjectionContext;
 
 /**
  * @author deniz.toktay
@@ -34,6 +32,9 @@ public class RuleModel implements Serializable {
 
   private Node<RulePart> rule;
 
+  /**
+   * @return rule builder
+   */
   public static RuleBuilder rule() {
     return new RuleModel.RuleBuilder();
   }
@@ -47,22 +48,38 @@ public class RuleModel implements Serializable {
 
     private final RuleModel managedInstance = new RuleModel();
 
+    /**
+     * @param in
+     * @return RuleBuilder
+     */
     public RuleBuilder rule(String in) {
       var rule = RuleParser.ruler(in);
       managedInstance.rule = rule;
       return this;
     }
 
+    /**
+     * @param in
+     * @return RuleBuilder
+     */
     public RuleBuilder name(String in) {
       managedInstance.ruleName = in;
       return this;
     }
 
+    /**
+     * @return RuleModel
+     */
     public RuleModel addRule() {
       return managedInstance;
     }
   }
 
+  /**
+   * Run parsed rule by using given bindings
+   * 
+   * @param bindings
+   */
   public void processRule(Map<String, ?> bindings) {
     var currentNode = rule;
     currentNode = processCurrentNode(currentNode, bindings);
@@ -148,8 +165,7 @@ public class RuleModel implements Serializable {
 
   private boolean processExpression(Node<RulePart> currentNode, Map<String, ?> bindings) {
     var expressionModel = (ExpressionModel) currentNode.getData();
-    return expressionModel.isElseExpression()
-        ? true
+    return expressionModel.isElseExpression() ? true
         : expressionModel.getExpression().interpret(bindings);
   }
 
@@ -157,15 +173,15 @@ public class RuleModel implements Serializable {
       throws Exception {
     var actionModel = (ActionModel) currentNode.getData();
     var managerBean =
-        (ActionDispatcherManager) FlowManagerSpringContext.getBean(ActionDispatcherManager.class);
+        (ActionDispatcherManager) SpringBeanInjectionContext.getBean(ActionDispatcherManager.class);
     var args = new ArrayList<String>();
     if (ArrayUtils.isNotEmpty(actionModel.getArgs())) {
       for (var arg : actionModel.getArgs()) {
         args.add(bindings.containsKey(arg) ? getStringValueOfBinding(bindings.get(arg)) : arg);
       }
     }
-    managerBean.runDispatcher(
-        actionModel.getDispatcherName(), args.toArray(new String[args.size()]));
+    managerBean.runDispatcher(actionModel.getDispatcherName(),
+        args.toArray(new String[args.size()]));
   }
 
   private String getStringValueOfBinding(Object object) {
@@ -176,8 +192,6 @@ public class RuleModel implements Serializable {
   }
 
   enum MoveType {
-    CHILD,
-    SIBLING,
-    STOP;
+    CHILD, SIBLING, STOP;
   }
 }

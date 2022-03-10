@@ -25,6 +25,9 @@ public class ExpressionModel implements RulePart {
 
   private boolean headExpression = false;
 
+  /**
+   * @return ExpressionBuilder
+   */
   public static ExpressionBuilder expression() {
     return new ExpressionModel.ExpressionBuilder();
   }
@@ -38,23 +41,36 @@ public class ExpressionModel implements RulePart {
 
     private final ExpressionModel managedInstance = new ExpressionModel();
 
+    /**
+     * @param expr
+     * @return ExpressionBuilder
+     */
     public ExpressionBuilder expression(Expression expr) {
       PAsserts.isFalse(managedInstance.elseExpression, () -> "already_defined_else");
       this.managedInstance.expression = expr;
       return this;
     }
 
+    /**
+     * @return ExpressionBuilder
+     */
     public ExpressionBuilder elseExpression() {
       PAsserts.isNull(managedInstance.expression, () -> "already_defined_rule");
       managedInstance.elseExpression = true;
       return this;
     }
 
+    /**
+     * @return ExpressionBuilder
+     */
     public ExpressionBuilder isHeadExpression() {
       managedInstance.headExpression = true;
       return this;
     }
 
+    /**
+     * @return ExpressionModel
+     */
     public ExpressionModel addExpression() {
       return managedInstance;
     }

@@ -2,14 +2,14 @@
 package tech.pardus.rule.flow.manager.actions;
 
 import java.util.stream.Stream;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import tech.pardus.rule.flow.manager.annotattions.DispatcherBean;
+import tech.pardus.rule.flow.manager.annotations.DispatcherBean;
 
 /**
+ * Default Dispatcher bean does nothing and triggers if no bean found
+ * 
  * @author deniz.toktay
  * @since Sep 11, 2020
  */

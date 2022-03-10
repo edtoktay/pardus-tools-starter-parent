@@ -10,5 +10,10 @@ import java.io.Serializable;
 @FunctionalInterface
 public interface ActionDispatcher extends Serializable {
 
+  /**
+   * Run method for action dispatched for given String arguments
+   * 
+   * @param args
+   */
   void fire(String... args);
 }

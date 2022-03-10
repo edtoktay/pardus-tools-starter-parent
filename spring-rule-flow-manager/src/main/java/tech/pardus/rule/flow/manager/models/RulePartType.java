@@ -6,6 +6,12 @@ package tech.pardus.rule.flow.manager.models;
  * @since Sep 23, 2020
  */
 public enum RulePartType {
+  /**
+   * 
+   */
   STATEMENT,
+  /**
+   * 
+   */
   ACTION;
 }

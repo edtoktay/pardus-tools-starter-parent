@@ -3,10 +3,12 @@ package tech.pardus.rule.flow.manager.operations;
 
 import java.util.Map;
 import java.util.Stack;
-
 import tech.pardus.rule.flow.manager.expressions.Expression;
 
 /**
+ * Predefined Or (defined with OR symbol) operation || in given objects preferred to use by boolean
+ * values
+ * 
  * @author deniz.toktay
  * @since Aug 16, 2020
  */
@@ -15,6 +17,9 @@ public class Or extends Operation {
   /** */
   private static final long serialVersionUID = -89821281802173244L;
 
+  /**
+   * 
+   */
   public Or() {
     super("OR");
   }
